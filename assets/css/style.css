@@ -275,20 +275,20 @@ ul { list-style: none; margin: 0; padding: 0; }
 .hero__slide.is-active { opacity: 1; }
 /* real hero photos from img/ (slide1–slide4, WebP + JPEG fallback) */
 .hero__slide:nth-child(1) {
-  background-image: url("../img/slide1.jpg");
-  background-image: image-set(url("../img/slide1.webp") type("image/webp"), url("../img/slide1.jpg") type("image/jpeg"));
+  background-image: url("../../img/slide1.jpg");
+  background-image: image-set(url("../../img/slide1.webp") type("image/webp"), url("../../img/slide1.jpg") type("image/jpeg"));
 }
 .hero__slide:nth-child(2) {
-  background-image: url("../img/slide2.jpg");
-  background-image: image-set(url("../img/slide2.webp") type("image/webp"), url("../img/slide2.jpg") type("image/jpeg"));
+  background-image: url("../../img/slide2.jpg");
+  background-image: image-set(url("../../img/slide2.webp") type("image/webp"), url("../../img/slide2.jpg") type("image/jpeg"));
 }
 .hero__slide:nth-child(3) {
-  background-image: url("../img/slide3.jpg");
-  background-image: image-set(url("../img/slide3.webp") type("image/webp"), url("../img/slide3.jpg") type("image/jpeg"));
+  background-image: url("../../img/slide3.jpg");
+  background-image: image-set(url("../../img/slide3.webp") type("image/webp"), url("../../img/slide3.jpg") type("image/jpeg"));
 }
 .hero__slide:nth-child(4) {
-  background-image: url("../img/slide4.jpg");
-  background-image: image-set(url("../img/slide4.webp") type("image/webp"), url("../img/slide4.jpg") type("image/jpeg"));
+  background-image: url("../../img/slide4.jpg");
+  background-image: image-set(url("../../img/slide4.webp") type("image/webp"), url("../../img/slide4.jpg") type("image/jpeg"));
 }
 .hero::after {
   content: "";
