@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260823a" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260823b" />
 </head>
 <body>
 
@@ -183,7 +183,7 @@
 
         <div class="grid grid--3">
           <article class="card reveal">
-            <div class="card__media" role="img" aria-label="Бизнес-центры" style="background-image:url('img_objects/BC.png')"></div>
+            <div class="card__media" role="img" aria-label="Бизнес-центры" style="background-image:url('img_objects/BC.webp')"></div>
             <div class="card__body">
               <h3 class="card__title"><a href="business-centers">Бизнес-центры</a></h3>
               <p class="card__text">Строительство и реконструкция офисных и деловых центров.</p>
@@ -191,7 +191,7 @@
             </div>
           </article>
           <article class="card reveal">
-            <div class="card__media" role="img" aria-label="Торговые комплексы" style="background-image:url('img_objects/TC.png')"></div>
+            <div class="card__media" role="img" aria-label="Торговые комплексы" style="background-image:url('img_objects/TC.webp')"></div>
             <div class="card__body">
               <h3 class="card__title"><a href="shopping-malls">Торговые комплексы</a></h3>
               <p class="card__text">ТЦ и торговые объекты: от основания до ввода в эксплуатацию.</p>
@@ -199,7 +199,7 @@
             </div>
           </article>
           <article class="card reveal">
-            <div class="card__media" role="img" aria-label="Жилые дома" style="background-image:url('img_objects/ZB.png')"></div>
+            <div class="card__media" role="img" aria-label="Жилые дома" style="background-image:url('img_objects/ZB.webp')"></div>
             <div class="card__body">
               <h3 class="card__title"><a href="residential">Жилые дома</a></h3>
               <p class="card__text">Строительство многоквартирных и индивидуальных жилых домов.</p>
@@ -207,7 +207,7 @@
             </div>
           </article>
           <article class="card reveal">
-            <div class="card__media" role="img" aria-label="Промышленные объекты" style="background-image:url('img_objects/LB.png')"></div>
+            <div class="card__media" role="img" aria-label="Промышленные объекты" style="background-image:url('img_objects/LB.webp')"></div>
             <div class="card__body">
               <h3 class="card__title"><a href="industrial">Промышленные объекты</a></h3>
               <p class="card__text">Производственные и логистические здания, склады, ангары.</p>
@@ -223,7 +223,7 @@
             </div>
           </article>
           <article class="card reveal">
-            <div class="card__media" role="img" aria-label="Реконструкция" style="background-image:url('img_objects/Rec.png')"></div>
+            <div class="card__media" role="img" aria-label="Реконструкция" style="background-image:url('img_objects/Rec.webp')"></div>
             <div class="card__body">
               <h3 class="card__title"><a href="reconstruction">Реконструкция</a></h3>
               <p class="card__text">Реконструкция и модернизация зданий различного назначения.</p>
@@ -435,6 +435,11 @@
           <form class="form reveal" data-form novalidate>
             <h3>Оставить заявку</h3>
             <div class="form-status" role="alert"></div>
+            <!-- honeypot: не заполнять -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="f-website">Ваш сайт</label>
+              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
 
             <div class="field" data-field="name">
               <label for="f-name">Ваше имя <span class="req">*</span></label>
@@ -458,7 +463,7 @@
               <label for="f-privacy" style="font-weight:400;">Я соглашаюсь на обработку персональных данных в соответствии с <a href="privacy">политикой конфиденциальности</a>.</label>
             </div>
 
-            <button class="btn btn--block" type="submit">Отправить заявку</button>
+            <button class="btn btn--block" type="submit">Отправить заявку<span class="btn__loading" hidden>Отправляем…</span></button>
           </form>
         </div>
       </div>

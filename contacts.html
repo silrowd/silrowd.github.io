@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260823a" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260823b" />
 </head>
 <body>
 
@@ -97,6 +97,11 @@
           <form class="form reveal" data-form novalidate>
             <h3>Оставить заявку</h3>
             <div class="form-status" role="alert"></div>
+            <!-- honeypot: не заполнять -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="f-website">Ваш сайт</label>
+              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
 
             <div class="field" data-field="name">
               <label for="f-name">Ваше имя <span class="req">*</span></label>
@@ -120,7 +125,7 @@
               <label for="f-privacy" style="font-weight:400;">Я соглашаюсь на обработку персональных данных в соответствии с <a href="privacy">политикой конфиденциальности</a>.</label>
             </div>
 
-            <button class="btn btn--block" type="submit">Отправить заявку</button>
+            <button class="btn btn--block" type="submit">Отправить заявку<span class="btn__loading" hidden>Отправляем…</span></button>
           </form>
         </div>
       </div>

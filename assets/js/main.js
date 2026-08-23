@@ -221,17 +221,41 @@
     });
   }
 
-  /* ---------- Contact form (client-side validation only) ---------- */
+  /* ---------- Contact form (FormSubmit.co, без бэкенда) ---------- */
   var form = document.querySelector('[data-form]');
   if (form) {
     var status = form.querySelector('.form-status');
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var FORM_ENDPOINT = 'https://formsubmit.co/ajax/bik-m@mail.ru';
 
     function setInvalid(field, invalid) {
       field.classList.toggle('invalid', invalid);
     }
 
+    function setStatus(type, text) {
+      if (!status) return;
+      status.className = 'form-status' + (type ? ' ' + type : '');
+      status.textContent = text || '';
+    }
+
+    function setLoading(on) {
+      if (!submitBtn) return;
+      submitBtn.disabled = on;
+      var label = submitBtn.querySelector('.btn__loading');
+      if (label) label.hidden = !on;
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      // honeypot: боты заполняют скрытое поле — тихо «принимаем» и не отправляем
+      var hp = form.querySelector('[name="website"]');
+      if (hp && hp.value.trim() !== '') {
+        setStatus('ok', 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+        form.reset();
+        return;
+      }
+
       var ok = true;
 
       // name
@@ -250,23 +274,51 @@
       // message (optional)
       var msgField = form.querySelector('[data-field="message"]');
       if (msgField) setInvalid(msgField, false);
+      var msgInput = msgField ? msgField.querySelector('textarea') : null;
 
       // privacy
       var privacy = form.querySelector('[data-field="privacy"] input');
       if (privacy && !privacy.checked) {
-        if (status) { status.className = 'form-status err'; status.textContent = 'Необходимо согласие на обработку персональных данных.'; }
+        setStatus('err', 'Необходимо согласие на обработку персональных данных.');
         ok = false;
       }
 
-      if (ok) {
-        // Prototype: no backend yet. In the Laravel build this POSTs to
-        // POST /contacts (Route::post) and stores a `messages` row.
-        if (status) {
-          status.className = 'form-status ok';
-          status.textContent = 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.';
+      if (!ok) return;
+
+      setLoading(true);
+      setStatus('', '');
+
+      var payload = {
+        name: nameInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        message: msgInput ? msgInput.value.trim() : '',
+        _subject: 'Новая заявка с сайта СК ПСП',
+        _template: 'table',
+        _captcha: 'false'
+      };
+
+      fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res || res.success === false) {
+          throw new Error(res && res.message ? res.message : 'FormSubmit error');
         }
         form.reset();
-      }
+        setStatus('ok', 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+      })
+      .catch(function () {
+        setStatus('err', 'Не удалось отправить заявку. Попробуйте ещё раз позже или напишите нам на bik-m@mail.ru.');
+      })
+      .then(function () {
+        setLoading(false);
+      });
     });
 
     // Clear invalid state while typing

@@ -273,11 +273,23 @@ ul { list-style: none; margin: 0; padding: 0; }
   transition: opacity 1s var(--ease);
 }
 .hero__slide.is-active { opacity: 1; }
-/* real hero photos from img/ (slide1–slide4) */
-.hero__slide:nth-child(1) { background-image: url("../../img/slide1.jpeg"); }
-.hero__slide:nth-child(2) { background-image: url("../../img/slide2.png"); }
-.hero__slide:nth-child(3) { background-image: url("../../img/slide3.jpg"); }
-.hero__slide:nth-child(4) { background-image: url("../../img/slide4.jpg"); }
+/* real hero photos from img/ (slide1–slide4, WebP + JPEG fallback) */
+.hero__slide:nth-child(1) {
+  background-image: url("../img/slide1.jpg");
+  background-image: image-set(url("../img/slide1.webp") type("image/webp"), url("../img/slide1.jpg") type("image/jpeg"));
+}
+.hero__slide:nth-child(2) {
+  background-image: url("../img/slide2.jpg");
+  background-image: image-set(url("../img/slide2.webp") type("image/webp"), url("../img/slide2.jpg") type("image/jpeg"));
+}
+.hero__slide:nth-child(3) {
+  background-image: url("../img/slide3.jpg");
+  background-image: image-set(url("../img/slide3.webp") type("image/webp"), url("../img/slide3.jpg") type("image/jpeg"));
+}
+.hero__slide:nth-child(4) {
+  background-image: url("../img/slide4.jpg");
+  background-image: image-set(url("../img/slide4.webp") type("image/webp"), url("../img/slide4.jpg") type("image/jpeg"));
+}
 .hero::after {
   content: "";
   position: absolute; inset: 0; z-index: -1;
@@ -715,6 +727,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .form-status.ok { display: block; background: #e7f6ee; color: #1c7a45; border: 1px solid #bfe6d0; }
 .form-status.err { display: block; background: #fdecec; color: #b3261e; border: 1px solid #f3c2c2; }
+/* honeypot — скрыт от людей, боты видят и заполняют его */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
 
 /* ---------- CTA band ---------- */
 .cta-band {
