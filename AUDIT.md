@@ -37,7 +37,7 @@
 
 ### 5. Нет Open Graph, canonical и JSON-LD
 На ни одной странице. Для строительной компании с адресом в СПб критична схема `LocalBusiness` (телефон, адрес, гео).
-- **Статус:** ✅ исправлено 23.08.2026. На всех 37 страницах добавлены: `rel="canonical"` (чистые URL `https://sk-psp.ru/...`, сверка со sitemap 1:1), OG-теги (`og:title`/`og:description`/`og:url`/`og:image` = `img/slide1.jpg` 1600×1066, `og:site_name`, `og:locale=ru_RU`, `twitter:card`), на 10 новостях — `og:type=article` + `article:published_time` (из `datetime`); JSON-LD `schema.org/GeneralContractor` (название, адрес, телефон, e-mail, гео 59.883525/30.33025, режим Пн–Пт 9:00–18:00, areaServed СПб+ЛО). `postalCode` намеренно не указан — индекс 197342 не удалось верифицировать. JSON-LD прогнан через `json.loads` на всех 37 — валиден.
+- **Статус:** ✅ исправлено 23.08.2026. На всех 37 страницах добавлены: `rel="canonical"` (чистые URL `https://sk-psp.ru/...`, сверка со sitemap 1:1), OG-теги (`og:title`/`og:description`/`og:url`/`og:image` = `img/slide1.jpg` 1600×1066, `og:site_name`, `og:locale=ru_RU`, `twitter:card`), на 10 новостях — `og:type=article` + `article:published_time` (из `datetime`); JSON-LD `schema.org/GeneralContractor` (название, адрес, телефон, e-mail, гео 59.883525/30.33025, режим Пн–Пт 9:00–18:00, areaServed СПб+ЛО). добавлен `postalCode: 196006` (индекс верифицирован заказчиком 23.08.2026, также добавлен в видимый адрес `contacts.html`). JSON-LD прогнан через `json.loads` на всех 37 — валиден.
 
 ### 6. Четыре `<h1>` на главной
 По одному на каждый hero-слайд. Для SEO предпочтителен один H1; слайды лучше на `<h2>`.
