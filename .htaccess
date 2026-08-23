@@ -1,0 +1,24 @@
+# Чистые URL: /about → about.html, /admin → admin/admin.php
+Options -MultiViews
+RewriteEngine On
+
+# Принудительный переход с HTTP на HTTPS (в проде; локально php -S этот файл не читает)
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# HSTS: браузеры запоминают, что сайт — только HTTPS (работает только на HTTPS-ответах)
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+# Панель администратора: /admin и /admin/ → admin/admin.php
+RewriteRule ^admin/?$ admin/admin.php [L]
+
+# Фавиконка: /favicon.ico → img/favicon.ico (фолбэк, если браузер не нашёл <link rel="icon">)
+RewriteRule ^favicon\.ico$ /img/favicon.ico [L]
+
+# Старый адрес /admin/admin.php → /admin/ (301, чтобы не дублировать)
+RewriteRule ^admin/admin\.php$ /admin/ [R=301,L]
+
+# Остальные страницы без расширения: /about → about.html (если файл существует)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-z0-9\-]+)$ $1.html [L]
