@@ -25,6 +25,14 @@ if ($path === '/favicon.ico') {
     return true;
 }
 
+// Личные данные (заявки с формы) — недоступны; на хостинге это делает data/private/.htaccess
+if ($path === '/data/private' || strpos($path, '/data/private/') === 0) {
+    http_response_code(404);
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>404 — страница не найдена</title></head><body><h1>404</h1><p>Такой страницы нет. <a href="/">На главную</a></p></body></html>';
+    return true;
+}
+
 $target = $root . $path;
 
 // Реальный файл (css/js/img/старые .html) — отдаём как есть
