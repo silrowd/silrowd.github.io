@@ -120,19 +120,91 @@
     if (!els.length) return;
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
       els.forEach(function (el) { el.classList.add('is-visible'); });
-    } else {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) {
-            en.target.classList.add('is-visible');
-            io.unobserve(en.target);
-          }
-        });
-      }, { threshold: 0.12 });
-      els.forEach(function (el) { io.observe(el); });
+      return;
     }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        var el = en.target;
+        var stagger = parseInt(el.getAttribute('data-stagger'), 10);
+        if (stagger > 0) {
+          // Каскад: задержка задаётся только пока идёт появление
+          el.classList.add('is-revealing');
+          var kids = el.children;
+          for (var i = 0; i < kids.length && i < 12; i++) {
+            kids[i].style.transitionDelay = (i * stagger) + 'ms';
+          }
+          el.classList.add('is-visible');
+          var clear = function () {
+            el.classList.remove('is-revealing');
+            for (var j = 0; j < kids.length; j++) kids[j].style.transitionDelay = '';
+            el.removeEventListener('transitionend', clear);
+          };
+          el.addEventListener('transitionend', clear);
+          setTimeout(clear, stagger * 12 + 1600);
+          return;
+        }
+        el.classList.add('is-visible');
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
   }
   initReveal();
+
+  /* ---------- Hero parallax ---------- */
+  function initHeroParallax() {
+    if (prefersReducedMotion) return;
+    var hero = document.querySelector('.hero');
+    var bg = hero && hero.querySelector('.hero__bg');
+    if (!bg) return;
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var rect = hero.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > innerHeight) return;
+        var progress = Math.min(Math.max(-rect.top / (rect.height || 1), -1), 1);
+        bg.style.transform = 'translate3d(0,' + (progress * -46).toFixed(1) + 'px,0)';
+      });
+    }
+    bg.style.willChange = 'transform';
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+  initHeroParallax();
+
+  /* ---------- Header shadow on scroll ---------- */
+  function initHeaderScroll() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    function onScroll() {
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+  initHeaderScroll();
+
+  /* ---------- Smooth anchor scroll (offset for sticky header) ---------- */
+  function initSmoothAnchors() {
+    if (!('scrollBehavior' in document.documentElement.style)) return;
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a) return;
+      var hash = a.getAttribute('href');
+      if (!hash || hash === '#') return;
+      var target = document.querySelector(hash);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + window.scrollY - 84;
+      window.scrollTo({ top: Math.max(0, top), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      if (history.pushState) history.pushState(null, '', hash);
+    });
+  }
+  initSmoothAnchors();
 
   /* ---------- Dynamic news (data/news.json) ---------- */
   var MONTHS = ['января','февраля','марта','апреля','мая','июня',
@@ -157,21 +229,49 @@
 
   var FALLBACK_IMG = 'linear-gradient(135deg,#3f5c7a,#243b53)';
 
+  // Ссылка на полную новость: ссылка из админки, а если её нет — страница
+  // новостей с ?id= (полный текст рендерится из news.json в новом окне)
+  function newsFullUrl(n) {
+    return n.link ? n.link : 'news?id=' + encodeURIComponent(n.id);
+  }
+
+  // Короткий текст для карточки: без markdown-разметки, до ~200 символов
+  function newsExcerpt(text, max) {
+    max = max || 200;
+    var t = String(text || '')
+      .replace(/^#{1,6}\s+/gm, '')            // заголовки
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')   // картинки
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // ссылки → текст
+      .replace(/[*_`~]+/g, '')                // жирный/курсив/код
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (t.length <= max) return t;
+    var cut = t.slice(0, max);
+    var sp = cut.lastIndexOf(' ');
+    if (sp > max * 0.6) cut = cut.slice(0, sp);
+    return cut + '…';
+  }
+
   function newsCard(n, feature) {
     var img = n.image
       ? "background-image:url('" + esc(n.image) + "');"
       : "background-image:" + FALLBACK_IMG + ";";
     var cls = 'news-item reveal' + (feature ? ' news-item--feature' : '');
-    var link = n.link || 'news';
-    var linkTxt = n.link_text || 'Подробнее';
+    var linkTxt = n.link_text || 'Читать полностью';
+    // Полная новость открывается в новом окне (всегда есть куда вести)
+    var fullUrl = newsFullUrl(n);
+    var newWin = ' target="_blank" rel="noopener"';
+    var titleHtml = '<a href="' + esc(fullUrl) + '"' + newWin + '>' + esc(n.title) + '</a>';
+    var excerpt = newsExcerpt(n.text);
+    var readHtml = '<a class="news-item__read" href="' + esc(fullUrl) + '"' + newWin + '>' + esc(linkTxt) + '</a>';
     var html =
       '<article class="' + cls + '">' +
         '<div class="news-item__media" style="' + img + '"></div>' +
         '<div class="news-item__body">' +
           '<time class="news-item__date" datetime="' + esc(n.date) + '">' + esc(fmtDate(n.date)) + '</time>' +
-          '<h3 class="news-item__title"><a href="' + esc(link) + '">' + esc(n.title) + '</a></h3>' +
-          (n.text ? '<p class="news-item__text">' + esc(n.text) + '</p>' : '') +
-          '<a class="news-item__read" href="' + esc(link) + '">' + esc(linkTxt) + '</a>' +
+          '<h3 class="news-item__title">' + titleHtml + '</h3>' +
+          (excerpt ? '<p class="news-item__text">' + esc(excerpt) + '</p>' : '') +
+          readHtml +
         '</div>' +
       '</article>';
     return html;
@@ -185,15 +285,138 @@
       })
       .then(function (data) {
         if (!Array.isArray(data)) throw new Error('bad data');
-        data.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+        // новые сверху; при равной дате — по id (больше id = создана позже)
+        data.sort(function (a, b) {
+          var da = String(a.date || ''), db = String(b.date || '');
+          if (da !== db) return db.localeCompare(da);
+          return (parseInt(b.id, 10) || 0) - (parseInt(a.id, 10) || 0);
+        });
         return data;
       });
   }
 
-  // Full list: news
+  /* Мини-рендер markdown из текста новости (безопасно: всё экранируется,
+     разрешены только наши теги: h2/h3, p, ul, li, strong, em, code, a, img) */
+  function renderNewsText(raw) {
+    var lines = String(raw || '').split(/\r?\n/);
+    var html = '';
+    var inList = false;
+    var para = [];
+
+    function inline(s) {
+      var out = esc(s);
+      out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, function (m, alt, src) {
+        if (/^(javascript|data):/i.test(src)) return '';
+        return '<img src="' + src + '" alt="' + alt + '" style="width:100%;height:auto;border-radius:8px;margin:14px 0;">';
+      });
+      out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (m, txt, href) {
+        if (/^(javascript|data):/i.test(href)) return txt;
+        return '<a href="' + href + '" target="_blank" rel="noopener">' + txt + '</a>';
+      });
+      out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+      out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      out = out.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+      out = out.replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
+      return out;
+    }
+    function flushPara() {
+      if (para.length) {
+        html += '<p>' + inline(para.join(' ')) + '</p>';
+        para = [];
+      }
+    }
+    function closeList() {
+      if (inList) { html += '</ul>'; inList = false; }
+    }
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (/^\s*$/.test(line)) { flushPara(); closeList(); continue; }
+      var h = line.match(/^#{1,6}\s+(.*)/);
+      if (h) {
+        flushPara(); closeList();
+        html += '<h2>' + inline(h[1]) + '</h2>';
+        continue;
+      }
+      var li = line.match(/^\s*[-*+]\s+(.*)/);
+      if (li) {
+        flushPara();
+        if (!inList) { html += '<ul class="list">'; inList = true; }
+        html += '<li>' + inline(li[1]) + '</li>';
+        continue;
+      }
+      closeList();
+      para.push(line.trim());
+    }
+    flushPara();
+    closeList();
+    return html;
+  }
+
+  /* Полная новость: ?id= на странице новостей (для новостей из админки
+     без отдельной HTML-страницы). Рендерим статью вместо списка. */
+  function renderArticle(list, id) {
+    var n = null;
+    for (var i = 0; i < list.length; i++) {
+      if (String(list[i].id) === String(id)) { n = list[i]; break; }
+    }
+    var main = document.querySelector('main');
+    if (!main) return false;
+
+    if (!n) {
+      main.innerHTML =
+        '<div class="container" style="padding:60px 20px;text-align:center;">' +
+          '<h1 style="font-size:20px;">Новость не найдена</h1>' +
+          '<p style="margin-top:12px;"><a class="btn btn--ghost" href="news">← Все новости</a></p>' +
+        '</div>';
+      document.title = 'Новость не найдена — СК ПСП';
+      return true;
+    }
+
+    var d = new Date(n.date + 'T00:00:00');
+    var dateStr = isNaN(d.getTime()) ? esc(n.date) : esc(fmtDate(n.date));
+    main.innerHTML =
+      '<div class="page-hero"><div class="container">' +
+        '<h1>' + esc(n.title) + '</h1>' +
+        '<p>' + dateStr + ' · Новость компании</p>' +
+      '</div></div>' +
+      '<nav class="breadcrumbs" aria-label="Хлебные крошки" style="background:#fff;border-bottom:1px solid var(--border);">' +
+        '<div class="container">' +
+          '<a href="index">Главная</a><span class="sep">/</span>' +
+          '<a href="news">Новости</a><span class="sep">/</span>' +
+          '<span class="current">' + esc(n.title) + '</span>' +
+        '</div>' +
+      '</nav>' +
+      '<section class="section"><div class="container">' +
+        '<article class="prose reveal news-article">' +
+          (n.image ? '<figure class="news-article__photo"><img src="' + esc(n.image) + '" alt="' + esc(n.title) + '"></figure>' : '') +
+          renderNewsText(n.text) +
+          '<p style="margin-top:28px;"><a class="btn btn--ghost" href="news">← Все новости</a></p>' +
+        '</article>' +
+      '</div></section>' +
+      '<section class="section"><div class="container">' +
+        '<div class="cta-band reveal">' +
+          '<div>' +
+            '<h2>Есть вопрос по проекту?</h2>' +
+            '<p>Оставьте заявку — ответим в течение рабочего дня.</p>' +
+          '</div>' +
+          '<a class="btn" href="contacts">Оставить заявку</a>' +
+        '</div>' +
+      '</div></section>';
+    document.title = n.title + ' — Новости | СК ПСП';
+    window.scrollTo(0, 0);
+    initReveal();
+    return true;
+  }
+
+  // Full list: news (или полная новость по ?id=)
   var newsGrid = document.querySelector('[data-news-grid]');
   if (newsGrid) {
     loadNews().then(function (list) {
+      var q = new URLSearchParams(window.location.search);
+      var idParam = q.get('id');
+      if (idParam !== null && renderArticle(list, idParam)) return;
+
       if (!list.length) {
         newsGrid.innerHTML = '<p class="news-empty">Новости появятся совсем скоро.</p>';
         return;
@@ -221,12 +444,12 @@
     });
   }
 
-  /* ---------- Contact form (FormSubmit.co, без бэкенда) ---------- */
+  /* ---------- Contact form (локальный бэкенд api/contact.php, без сторонних сервисов) ---------- */
   var form = document.querySelector('[data-form]');
   if (form) {
     var status = form.querySelector('.form-status');
     var submitBtn = form.querySelector('button[type="submit"]');
-    var FORM_ENDPOINT = 'https://formsubmit.co/ajax/bik-m@mail.ru';
+    var FORM_ENDPOINT = 'api/contact.php';
 
     function setInvalid(field, invalid) {
       field.classList.toggle('invalid', invalid);
@@ -292,9 +515,9 @@
         name: nameInput.value.trim(),
         phone: phoneInput.value.trim(),
         message: msgInput ? msgInput.value.trim() : '',
-        _subject: 'Новая заявка с сайта СК ПСП',
-        _template: 'table',
-        _captcha: 'false'
+        consent: privacy ? privacy.checked : false,
+        website: hp ? hp.value : '',
+        page: window.location.pathname
       };
 
       fetch(FORM_ENDPOINT, {
@@ -308,7 +531,15 @@
       })
       .then(function (res) {
         if (!res || res.success === false) {
-          throw new Error(res && res.message ? res.message : 'FormSubmit error');
+          // Серверная валидация: подсвечиваем поле с ошибкой (если указана)
+          if (res && res.field) {
+            if (res.field === 'name') setInvalid(nameField, true);
+            else if (res.field === 'phone') setInvalid(phoneField, true);
+            else if (res.field === 'message') setInvalid(msgField, true);
+            setStatus('err', res.message || 'Проверьте поля формы.');
+            return;
+          }
+          throw new Error('Form error');
         }
         form.reset();
         setStatus('ok', 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');

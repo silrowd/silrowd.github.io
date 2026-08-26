@@ -297,7 +297,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .hero__content {
   position: relative;
-  padding: clamp(48px, 7vw, 88px) 0;
+  padding: clamp(48px, 7vw, 88px) var(--container-pad);
   width: 100%;
 }
 .hero__captions { display: grid; }
@@ -1037,3 +1037,74 @@ ul { list-style: none; margin: 0; padding: 0; }
   .lightbox__nav--next { right: 8px; }
 }
 .category-card__more:hover::after { transform: translateX(4px); }
+
+/* ---------- Animations: staggered reveal ---------- */
+/* data-stagger="120" on .reveal — children fade in one by one */
+.is-revealing > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.is-revealing.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Animations: header on scroll ---------- */
+.site-header { transition: box-shadow .25s var(--ease); }
+.site-header.is-scrolled { box-shadow: var(--shadow-sm); }
+
+/* ---------- Animations: hero ---------- */
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes hero-kenburns {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1); }
+}
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(6px); }
+}
+.hero__bg {
+  position: absolute;
+  inset: -48px 0;
+  background: var(--hero-bg, var(--blue-dark)) center / cover no-repeat;
+  animation: hero-kenburns 1.4s var(--ease) both;
+}
+.hero__content > * {
+  animation: hero-fade-up .7s var(--ease) both;
+}
+.hero__content > *:nth-child(1) { animation-delay: .1s; }
+.hero__content > *:nth-child(2) { animation-delay: .22s; }
+.hero__content > *:nth-child(3) { animation-delay: .34s; }
+.hero__content > *:nth-child(4) { animation-delay: .46s; }
+.hero__content > *:nth-child(5) { animation-delay: .58s; }
+.hero__scroll-hint { animation: hero-fade .6s ease .9s both, arrow-bounce 2.2s ease-in-out 1.6s infinite; }
+
+/* ---------- Animations: lightbox ---------- */
+@keyframes lightbox-pop {
+  from { opacity: 0; transform: scale(.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.lightbox.is-open .lightbox__figure { animation: lightbox-pop .22s var(--ease); }
+
+/* ---------- Animations: reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__bg,
+  .hero__content > *,
+  .hero__scroll-hint,
+  .lightbox.is-open .lightbox__figure {
+    animation: none;
+  }
+  .is-revealing > *,
+  .site-header,
+  .site-header.is-scrolled {
+    transition: none;
+  }
+}
