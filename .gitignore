@@ -7,3 +7,6 @@
 
 # Админка — содержит пароль, не публикуем
 admin/
+
+# form submissions - private
+data/private/
