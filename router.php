@@ -27,9 +27,7 @@ if ($path === '/favicon.ico') {
 
 // Личные данные (заявки с формы) — недоступны; на хостинге это делает data/private/.htaccess
 if ($path === '/data/private' || strpos($path, '/data/private/') === 0) {
-    http_response_code(404);
-    header('Content-Type: text/html; charset=UTF-8');
-    echo '<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>404 — страница не найдена</title></head><body><h1>404</h1><p>Такой страницы нет. <a href="/">На главную</a></p></body></html>';
+    error_404();
     return true;
 }
 
@@ -47,7 +45,13 @@ if (preg_match('/^[a-z0-9\-]+$/i', basename($path)) && is_file($target . '.html'
 }
 
 // Не существует — явно 404 (встроенный сервер иначе отдаст index.html)
-http_response_code(404);
-header('Content-Type: text/html; charset=UTF-8');
-echo '<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>404 — страница не найдена</title></head><body><h1>404</h1><p>Такой страницы нет. <a href="/">На главную</a></p></body></html>';
+error_404();
 return true;
+
+function error_404() {
+    http_response_code(404);
+    header('Content-Type: text/html; charset=UTF-8');
+    $page = __DIR__ . '/404.html';
+    if (is_file($page)) { readfile($page); return; }
+    echo '<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>404 — страница не найдена</title></head><body><h1>404</h1><p>Такой страницы нет. <a href="/">На главную</a></p></body></html>';
+}

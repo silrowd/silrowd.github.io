@@ -27,8 +27,9 @@
 
 /* ---------- Настройки ---------- */
 
-define('CONTACT_TO', 'bik-m@mail.ru');
-define('CONTACT_FROM_EMAIL', 'no-reply@sk-psp.ru');
+define('CONTACT_TO', 'oplavnik@yandex.ru');
+// Отправитель — ящик на этом же хостинге (sweb): SPF/DKIM проходят, письмо не в спам.
+define('CONTACT_FROM_EMAIL', 'info@sk-psp.ru');
 define('CONTACT_FROM_NAME', 'Сайт СК ПСП');
 define('CONTACT_SUBJECT', 'Новая заявка с сайта СК ПСП');
 
@@ -85,17 +86,55 @@ function contact_mime_header($value)
         : $value;
 }
 
-// IP клиента: REMOTE_ADDR, либо первый IP из X-Forwarded-For (если сайт за reverse-proxy/CDN)
-function contact_client_ip()
+// IP клиента: REMOTE_ADDR. X-Forwarded-For учитываем ТОЛЬКО если запрос
+// пришёл от доверенного прокси (иначе любой клиент подделает заголовок
+// и сбросит rate-limit). Список правого прокси — добавить при деплое
+// за reverse-proxy/CDN (например IP вашего CDN в доверенном списке).
+$TRUSTED_PROXY_NETS = array(
+    // '192.0.2.0/24',  // пример: публичный IP вашего CDN/прокси
+);
+
+function contact_client_ip($trustedNets = array())
 {
     $ip = isset($_SERVER['REMOTE_ADDR']) ? (string)$_SERVER['REMOTE_ADDR'] : '';
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] !== '') {
-        $first = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
-        if (filter_var($first, FILTER_VALIDATE_IP) !== false) {
-            $ip = $first;
+    if ($ip !== '' && $trustedNets !== array()) {
+        foreach ($trustedNets as $cidr) {
+            if (ip_in_cidr($ip, $cidr)) {
+                // Запрос с доверенного прокси — берём самый левый клиентский IP
+                if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] !== '') {
+                    $first = trim(explode(',', (string)$_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
+                    if (filter_var($first, FILTER_VALIDATE_IP) !== false) {
+                        $ip = $first;
+                    }
+                }
+                break;
+            }
         }
     }
     return $ip !== '' ? $ip : 'unknown';
+}
+
+// Совпадение IP с точечным адресом (a.b.c.d) или /CIDR сегментом.
+function ip_in_cidr($ip, $spec)
+{
+    // Точное совпадение
+    if (strpos($spec, '/') === false) {
+        return $ip === $spec;
+    }
+    // CIDR: a.b.c.d/n
+    $parts = explode('/', $spec, 2);
+    $network = $parts[0];
+    $bits = (int)$parts[1];
+    if ($bits < 0 || $bits > 32) {
+        return false;
+    }
+    $ipLong = ip2long($ip);
+    $netLong = ip2long($network);
+    if ($ipLong === false || $netLong === false) {
+        return false;
+    }
+    $mask = -1 ^ ((1 << (32 - $bits)) - 1);
+    return ($ipLong & $mask) === ($netLong & $mask);
 }
 
 /* ---------- 1. Только POST, разумный размер тела ---------- */
@@ -126,6 +165,7 @@ if (isset($data['website']) && trim((string)$data['website']) !== '') {
 /* ---------- 4. Серверная валидация ---------- */
 
 $name = isset($data['name']) ? trim((string)$data['name']) : '';
+$name = preg_replace('/[\r\n\t]+/', ' ', $name); // защита от CRLF-инъекции в Subject письма
 $phone = isset($data['phone']) ? trim((string)$data['phone']) : '';
 $message = isset($data['message']) ? trim((string)$data['message']) : '';
 $page = isset($data['page']) ? substr(trim((string)$data['page']), 0, 200) : '';
@@ -150,7 +190,7 @@ if (!$consent) {
 
 /* ---------- 5. Rate-limit: не более N заявок за M минут с одного IP ---------- */
 
-$ip = contact_client_ip();
+$ip = contact_client_ip($TRUSTED_PROXY_NETS);
 
 if (!is_dir(CONTACT_PRIVATE_DIR) && !@mkdir(CONTACT_PRIVATE_DIR, 0775, true)) {
     contact_fail('server', 'Внутренняя ошибка. Попробуйте позже.', 500);

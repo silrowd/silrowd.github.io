@@ -188,6 +188,106 @@
   }
   initHeaderScroll();
 
+  /* ---------- Scrollspy: подсветка пункта меню по секции (главная) ----------
+     Ссылки меню ведут на страницы (about, services…), но на главной те же
+     id существуют как секции — подсвечиваем пункт, чья секция в вьюпорте. */
+  function initScrollSpy() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+    if (!links.length) return;
+    /* --- прогон 1: реально существующие секции (по id) ---
+       Спам-фильтр spy: на подстраницах (services, contacts…) секций with id
+       нет, и не должно быть никакой подсветки — её держит статический active
+       в HTML. Только на главной (все секции есть) spy работает. */
+    var realSections = [];
+    var homeLink = null;
+    links.forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      var key = href.split('?')[0].split('/')[0];
+      if (key === 'index') { homeLink = a; return; }
+      var el = document.getElementById(key);
+      if (el) realSections.push({ link: a, el: el });
+    });
+    if (!realSections.length) return; // подстраница — spy не нужен
+    var sections = [];
+    if (homeLink) {
+      var topEl = document.querySelector('.site-header, main, .hero');
+      sections.push({ link: homeLink, top: 0, el: topEl });
+    }
+    sections = sections.concat(realSections);
+
+    var header = document.querySelector('.site-header');
+    var offset = (header ? header.offsetHeight : 72) + 40;
+    var current = null;
+
+    function setActive(link) {
+      if (link === current) return;
+      current = link;
+      links.forEach(function (a) { a.classList.remove('is-spy'); });
+      if (link) link.classList.add('is-spy');
+    }
+    function onScroll() {
+      var pos = window.scrollY + offset; // абсолютный порог под sticky-шейд
+      // live-позиции + сортировка по высоте (порядок меню != порядок DOM)
+      var items = sections.map(function (s) {
+        var top = s.top === 0 ? 0 : s.el.getBoundingClientRect().top + window.scrollY;
+        return { top: top, link: s.link };
+      }).sort(function (a, b) { return a.top - b.top; });
+      var target = items[0].link; // «Главная» — базовая
+      for (var n = 0; n < items.length; n++) {
+        if (items[n].top <= pos) target = items[n].link;
+      }
+      setActive(target);
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; onScroll(); });
+    }, { passive: true });
+    onScroll();
+  }
+  initScrollSpy();
+
+  /* ---------- Анимация счётчиков (.stat[data-count]) ---------- */
+  function fmtStat(el, val) {
+    var pre = el.getAttribute('data-prefix') || '';
+    var suf = el.getAttribute('data-suffix') || '';
+    var b = el.querySelector('b');
+    if (b) b.textContent = pre + val + suf;
+  }
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute('data-count'), 10);
+    if (isNaN(target)) return;
+    if (prefersReducedMotion) { fmtStat(el, target); return; }
+    var dur = 1400, t0 = null;
+    function frame(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      fmtStat(el, Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(frame);
+      if (p >= 1) el.classList.add('is-done');
+    }
+    requestAnimationFrame(frame);
+  }
+  function initCounters() {
+    var els = document.querySelectorAll('.stat[data-count]');
+    if (!els.length) return;
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { animateCount(el); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        animateCount(en.target);
+      });
+    }, { threshold: 0.4 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+  initCounters();
+
   /* ---------- Smooth anchor scroll (offset for sticky header) ---------- */
   function initSmoothAnchors() {
     if (!('scrollBehavior' in document.documentElement.style)) return;
@@ -355,6 +455,30 @@
 
   /* Полная новость: ?id= на странице новостей (для новостей из админки
      без отдельной HTML-страницы). Рендерим статью вместо списка. */
+  function newsImages(n) {
+    var imgs = [];
+    if (n.image) imgs.push(n.image);
+    if (Array.isArray(n.images)) {
+      for (var i = 0; i < n.images.length; i++) {
+        if (n.images[i] && imgs.indexOf(n.images[i]) === -1) imgs.push(n.images[i]);
+      }
+    }
+    return imgs;
+  }
+
+  function newsGalleryHtml(n, title) {
+    var extra = (n.images && Array.isArray(n.images)) ? n.images.filter(Boolean) : [];
+    if (!extra.length) return '';
+    var tiles = [];
+    for (var i = 0; i < extra.length; i++) {
+      var src = esc(extra[i]);
+      var lbl = 'Фото ' + (i + 1);
+      tiles.push('<button type="button" class="news-gal-thumb" data-full="' + src + '" aria-label="' + lbl + '">');
+      tiles.push('<img src="' + src + '" alt="' + lbl + ' — ' + esc(title) + '" loading="lazy">');
+      tiles.push('</button>');
+    }
+    return '<div class="news-gallery" data-lightbox="' + esc(title) + '" aria-label="Фотогалерея новости">' + tiles.join('') + '</div>';
+  }
   function renderArticle(list, id) {
     var n = null;
     for (var i = 0; i < list.length; i++) {
@@ -390,6 +514,7 @@
       '<section class="section"><div class="container">' +
         '<article class="prose reveal news-article">' +
           (n.image ? '<figure class="news-article__photo"><img src="' + esc(n.image) + '" alt="' + esc(n.title) + '"></figure>' : '') +
+          newsGalleryHtml(n, n.title) +
           renderNewsText(n.text) +
           '<p style="margin-top:28px;"><a class="btn btn--ghost" href="news">← Все новости</a></p>' +
         '</article>' +
@@ -406,6 +531,14 @@
     document.title = n.title + ' — Новости | СК ПСП';
     window.scrollTo(0, 0);
     initReveal();
+    var galRoot = main.querySelector('.news-gallery');
+    if (galRoot) {
+      initLightbox({
+        root: galRoot,
+        ariaLabel: 'Фотогалерея: ' + n.title,
+        label: 'Фото',
+      });
+    }
     return true;
   }
 
@@ -443,6 +576,65 @@
       homeNews.innerHTML = '<p class="news-empty">Не удалось загрузить новости.</p>';
     });
   }
+
+  /* ---------- Objects (data/objects.json) ---------- */
+  function loadObjects() {
+    return fetch('data/objects.json', { cache: 'no-cache' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!Array.isArray(data)) throw new Error('bad data');
+        return data;
+      });
+  }
+
+  function objectCard(o) {
+    var img = o.image
+      ? "background-image:url('" + esc(o.image) + "');"
+      : "background-image:" + FALLBACK_IMG + ";";
+    var meta = '';
+    if (o.area || o.term || o.work_type) {
+      meta =
+        '<ul class="card__meta">' +
+          (o.area ? '<li><span>Площадь</span><b>' + esc(o.area) + '</b></li>' : '') +
+          (o.term ? '<li><span>Сроки</span><b>' + esc(o.term) + '</b></li>' : '') +
+          (o.work_type ? '<li><span>Тип работ</span><b>' + esc(o.work_type) + '</b></li>' : '') +
+        '</ul>';
+    }
+    return (
+      '<article class="card reveal">' +
+        '<div class="card__media" role="img" aria-label="' + esc(o.alt || o.title) + '" style="' + img + '"></div>' +
+        '<div class="card__body">' +
+          '<h3 class="card__title">' + esc(o.title) + '</h3>' +
+          (o.address ? '<p class="card__addr">' + esc(o.address) + '</p>' : '') +
+          (o.text ? '<p class="card__text">' + esc(o.text) + '</p>' : '') +
+          meta +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  // Категории: страница категории (data-category) и все объекты сразу (data-category="all")
+  document.querySelectorAll('[data-objects-grid]').forEach(function (grid) {
+    var cat = grid.getAttribute('data-category');
+    loadObjects().then(function (list) {
+      var items = cat === 'all'
+        ? list
+        : list.filter(function (o) {
+            return Array.isArray(o.categories) && o.categories.indexOf(cat) !== -1;
+          });
+      if (!items.length) {
+        grid.innerHTML = '<p class="news-empty">Объекты появится совсем скоро.</p>';
+        return;
+      }
+      grid.innerHTML = items.map(objectCard).join('');
+      initReveal();
+    }).catch(function () {
+      grid.innerHTML = '<p class="news-empty">Не удалось загрузить объекты.</p>';
+    });
+  });
 
   /* ---------- Contact form (локальный бэкенд api/contact.php, без сторонних сервисов) ---------- */
   var form = document.querySelector('[data-form]');
@@ -600,15 +792,18 @@
     });
   }
 
-  /* ---------- Certificate lightbox ---------- */
-  var lbRoot = document.querySelector('[data-lightbox]');
-  if (lbRoot) {
+  /* ---------- Lightbox (certificates + news galleries) ---------- */
+  function initLightbox(opts) {
+    var lbRoot = (opts && opts.root) ? opts.root : null;
+    var lbFb = (opts && opts.label) ? opts.label : 'Фото';
+    if (!lbRoot) return;
     var lbItems = Array.prototype.slice.call(lbRoot.querySelectorAll('[data-full]'));
+    if (!lbItems.length) return;
     var lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.setAttribute('role', 'dialog');
     lb.setAttribute('aria-modal', 'true');
-    lb.setAttribute('aria-label', 'Просмотр сертификата');
+    lb.setAttribute('aria-label', (opts && opts.ariaLabel) || 'Просмотр фото');
     lb.innerHTML =
       '<button type="button" class="lightbox__close" aria-label="Закрыть">×</button>' +
       '<button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее">‹</button>' +
@@ -631,8 +826,8 @@
       lbCur = (i + lbItems.length) % lbItems.length;
       var btn = lbItems[lbCur];
       lbImg.src = btn.getAttribute('data-full');
-      lbImg.alt = btn.getAttribute('aria-label') || 'Сертификат';
-      lbCap.textContent = (btn.getAttribute('aria-label') || 'Сертификат') +
+      lbImg.alt = btn.getAttribute('aria-label') || lbFb;
+      lbCap.textContent = (btn.getAttribute('aria-label') || lbFb) +
         ' · ' + (lbCur + 1) + ' / ' + lbItems.length;
       lb.classList.add('is-open');
       lbClose.focus();
@@ -660,6 +855,13 @@
       else if (e.key === 'ArrowRight') lbShow(lbCur + 1);
     });
   }
+
+  /* Статическая галерея сертификатов (certificates.html) */
+  initLightbox({
+    root: document.querySelector('[data-lightbox]'),
+    ariaLabel: 'Просмотр сертификата',
+    label: 'Сертификат',
+  });
 
   /* ---------- Footer year ---------- */
   var yearEl = document.querySelector('[data-year]');
