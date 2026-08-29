@@ -434,6 +434,24 @@ ul { list-style: none; margin: 0; padding: 0; }
   background-position: center;
   position: relative;
 }
+/* карточки отзывов — кликабельные (открытие в полном размере) */
+button.card__media {
+  border: 0;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+button.card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0);
+  transition: background .2s var(--ease);
+}
+button.card__media:hover::after { background: rgba(15, 23, 42, .35); }
 /* gradient placeholders (replace with real photos in assets/img/) */
 .card__media.m1 { background-image: linear-gradient(135deg, #3f5c7a, #243b53); }
 .card__media.m2 { background-image: linear-gradient(135deg, #3082a8, #1f4e63); }
