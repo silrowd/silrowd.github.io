@@ -17,11 +17,24 @@
       var open = nav.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    // Close menu when a link is chosen
+    // Close menu when a link is chosen (but NOT on dropdown parent toggle)
     nav.addEventListener('click', function (e) {
+      // If clicking the "Объекты" parent link (has-sub), toggle dropdown instead
+      var hasSub = e.target.closest('a.has-sub');
+      if (hasSub && !hasSub.closest('.nav-dropdown')) {
+        var wasExpanded = hasSub.getAttribute('aria-expanded') === 'true';
+        hasSub.setAttribute('aria-expanded', wasExpanded ? 'false' : 'true');
+        // Close other expanded sub-menus
+        nav.querySelectorAll('a.has-sub[aria-expanded="true"]').forEach(function (a) {
+          if (a !== hasSub) a.setAttribute('aria-expanded', 'false');
+        });
+        return; // don't close the main menu
+      }
       if (e.target.closest('a')) {
         nav.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
+        // Reset all dropdowns
+        nav.querySelectorAll('a.has-sub').forEach(function (a) { a.setAttribute('aria-expanded', 'false'); });
       }
     });
   }
@@ -504,7 +517,7 @@
         '<h1>' + esc(n.title) + '</h1>' +
         '<p>' + dateStr + ' · Новость компании</p>' +
       '</div></div>' +
-      '<nav class="breadcrumbs" aria-label="Хлебные крошки" style="background:#fff;border-bottom:1px solid var(--border);">' +
+      '<nav class="breadcrumbs" aria-label="Хлебные крошки" style="background:transparent;border-bottom:1px solid var(--border);">' +
         '<div class="container">' +
           '<a href="index">Главная</a><span class="sep">/</span>' +
           '<a href="news">Новости</a><span class="sep">/</span>' +
@@ -570,7 +583,7 @@
         homeNews.innerHTML = '<p class="news-empty">Новости появятся совсем скоро.</p>';
         return;
       }
-      homeNews.innerHTML = top.map(function (n, i) { return newsCard(n, i === 0); }).join('');
+      homeNews.innerHTML = top.map(function (n) { return newsCard(n, false); }).join('');
       initReveal();
     }).catch(function () {
       homeNews.innerHTML = '<p class="news-empty">Не удалось загрузить новости.</p>';
@@ -862,6 +875,46 @@
     ariaLabel: 'Просмотр сертификата',
     label: 'Сертификат',
   });
+
+  /* ---------- Marquee: scroll-linked text ticker ---------- */
+  (function () {
+    var marquees = document.querySelectorAll('[data-marquee]');
+    if (!marquees.length) return;
+
+    var tracks = Array.prototype.map.call(marquees, function (m) {
+      var track = m.querySelector('.marquee__track');
+      if (!track) return null;
+      var word = track.querySelector('span');
+      if (!word) return null;
+      var wordW = word.offsetWidth;
+      var unit = wordW + 48;
+      return { track: track, unit: unit, lastY: 0, offset: 0 };
+    }).filter(Boolean);
+
+    if (!tracks.length) return;
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var y = window.scrollY;
+        tracks.forEach(function (t) {
+          var delta = y - t.lastY;
+          t.lastY = y;
+          t.offset -= delta * 1.2;
+          if (t.unit > 0) {
+            t.offset = ((t.offset % t.unit) + t.unit) % t.unit;
+          }
+          t.track.style.transform = 'translateX(-' + t.offset + 'px)';
+        });
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
 
   /* ---------- Footer year ---------- */
   var yearEl = document.querySelector('[data-year]');

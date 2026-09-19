@@ -1,20 +1,5 @@
 [
   {
-    "id": 53,
-    "categories": [
-      "business-centers"
-    ],
-    "title": "Сияние",
-    "address": "Цветочная 18",
-    "text": "ЧТо-то там клевое и интересное",
-    "image": "img_objects/Objects/obj-20260827-071354-42d53f.png",
-    "area": "2500",
-    "term": "2008-2009",
-    "work_type": "Реконструкция",
-    "alt": "Сияние",
-    "order": 52
-  },
-  {
     "id": 1,
     "categories": [
       "business-centers"
@@ -629,21 +614,6 @@
     "work_type": "Новое строительство",
     "alt": "Самсон О’Жизнь",
     "order": 40
-  },
-  {
-    "id": 42,
-    "categories": [
-      "residential"
-    ],
-    "title": "Херсонская",
-    "address": "Санкт-Петербург, ул. Херсонская, д. 43/12 лит. А",
-    "text": "Устройство монолитных конструкций здания - 2017 г. Генеральный подряд 2018-2019 гг. Заказчик Группа Ярд.",
-    "image": "img_objects/Objects/6aca23c6fb4c16ec35b6acf1d41a9ff1.jpg",
-    "area": "",
-    "term": "2017–2019",
-    "work_type": "Новое строительство",
-    "alt": "Херсонская",
-    "order": 41
   },
   {
     "id": 43,

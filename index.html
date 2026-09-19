@@ -7,12 +7,14 @@
   <meta name="description" content="Строительная компания «СК ПСП»: генеральный подряд, устройство монолитных конструкций, монтаж несущих и ограждающих конструкций, реконструкция. Работаем по Санкт-Петербургу и Ленобласти." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260827a" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260917f" />
+  <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
   <link rel="canonical" href="https://sk-psp.ru/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="СК ПСП — строительная компания" />
@@ -58,38 +60,46 @@
 </head>
 <body>
 
-  <!-- ===================== HEADER ===================== -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index" aria-label="СК ПСП — на главную">
-        <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
-        <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
-      </a>
-
-      <nav class="nav" id="main-nav" aria-label="Основное меню">
-        <a class="active" href="index">Главная</a>
-        <a href="news">Новости</a>
-        <a href="about">О компании</a>
-        <a href="services">Услуги</a>
-        <a href="objects">Объекты</a>
-        <a href="clients">Клиенты</a>
-        <a href="vacancies">Вакансии</a>
-      </nav>
-
-      <div class="header-cta">
-        <a class="header-phone" href="tel:+78123886371">+7 (812) 388-63-71<small>Пн–Пт 9:00–18:00</small></a>
-      </div>
-
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
-    </div>
-  </header>
-
   <main>
 
     <h1 class="sr-only">СК ПСП — строительная компания в Санкт-Петербурге: генеральный подряд полного цикла</h1>
 
     <!-- ===================== HERO SLIDER ===================== -->
     <section class="hero" data-hero aria-label="Слайд-шоу">
+
+      <!-- HEADER (на фоне слайдов) -->
+      <header class="site-header site-header--hero">
+        <div class="container header-inner">
+          <a class="brand" href="index" aria-label="СК ПСП — на главную">
+            <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
+            <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+          </a>
+
+          <nav class="nav" id="main-nav" aria-label="Основное меню">
+            <a class="active" href="index">Главная</a>
+            <a href="news">Новости</a>
+            <a href="about">О компании</a>
+            <a href="objects" class="has-sub" aria-haspopup="true">
+              Объекты
+              <span class="nav-caret" aria-hidden="true"></span>
+              <div class="nav-dropdown">
+                <a href="business-centers">Бизнес-центры</a>
+                <a href="public-buildings">Общественные здания</a>
+                <a href="shopping-malls">Торговые комплексы</a>
+                <a href="residential">Жилые дома</a>
+                <a href="industrial">Промышленные</a>
+                <a href="reconstruction">Реконструкция</a>
+              </div>
+            </a>
+            <a href="clients">Клиенты</a>
+            <a href="vacancies">Вакансии</a>
+          </nav>
+
+
+          <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
+        </div>
+      </header>
+
       <div class="hero__slides" aria-hidden="true">
         <div class="hero__slide is-active"></div>
         <div class="hero__slide"></div>
@@ -102,10 +112,9 @@
           <div class="hero__caption is-active">
             <span class="eyebrow">Строительная компания</span>
             <h2 class="hero__title">Строим объекты любой сложности</h2>
-            <p class="hero__sub">Генеральный подряд полного цикла: от проекта и монолитных конструкций до финишной отделки. Соблюдение сроков и качества на каждом этапе.</p>
+            <p class="hero__sub">Генеральный подряд полного цикла: от подготовки технических решений до ввода объекта в эксплуатацию. Соблюдение сроков и качества на каждом этапе.</p>
             <div class="hero__actions">
-              <a class="btn" href="services">Наши услуги</a>
-              <a class="btn btn--ghost" href="objects">Смотреть объекты</a>
+              <a class="btn btn--blue" href="objects">Смотреть объекты</a>
             </div>
           </div>
           <div class="hero__caption">
@@ -113,7 +122,7 @@
             <h2 class="hero__title">Берём проект под ключ</h2>
             <p class="hero__sub">Координируем все подрядные работы, контролируем качество и сроки. Один договор — полная ответственность за результат.</p>
             <div class="hero__actions">
-              <a class="btn" href="contacts">Рассчитать стоимость</a>
+              <a class="btn btn--blue" href="contacts">Рассчитать стоимость</a>
             </div>
           </div>
           <div class="hero__caption">
@@ -121,16 +130,13 @@
             <h2 class="hero__title">Надёжный фундамент вашего объекта</h2>
             <p class="hero__sub">Устройство монолитных конструкций по технологии с применением современных материалов и оборудования.</p>
             <div class="hero__actions">
-              <a class="btn" href="services">Подробнее об услугах</a>
+              <a class="btn btn--blue" href="services">Подробнее об услугах</a>
             </div>
           </div>
           <div class="hero__caption">
             <span class="eyebrow">Реконструкция</span>
             <h2 class="hero__title">Возвращаем зданиям вторую жизнь</h2>
             <p class="hero__sub">Реконструкция и капитальный ремонт зданий. Модернизация инженерных систем и несущих конструкций.</p>
-            <div class="hero__actions">
-              <a class="btn" href="objects">Наши проекты</a>
-            </div>
           </div>
         </div>
       </div>
@@ -154,7 +160,7 @@
       <div class="container lead">
         <div class="lead__text reveal">
           <span class="eyebrow">О компании</span>
-          <h2>Группа строительных компаний «СК ПСП» - «БИК-Монолит»</h2>
+          <h2>Группа строительных компаний «СК ПСП»</h2>
           <p>Многолетний опыт в строительстве и высокая квалификация сотрудников позволяют реализовывать проекты с соблюдением установленных сроков и с учетом требований клиента.</p>
           <a class="btn btn--blue" href="about">Подробнее о компании</a>
         </div>
@@ -168,17 +174,18 @@
     </section>
 
     <!-- ===================== SERVICES ===================== -->
-    <section class="section section--band" id="services">
+    <div class="marquee" data-marquee aria-hidden="true">
+      <div class="marquee__track">
+        <span>Услуги</span><span>Услуги</span><span>Услуги</span><span>Услуги</span><span>Услуги</span><span>Услуги</span><span>Услуги</span><span>Услуги</span>
+      </div>
+    </div>
+    <section class="section section--band" id="services" style="margin-top: 0; padding-top: 0;">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <span class="eyebrow">Что мы делаем</span>
-            <h2>Услуги</h2>
-          </div>
           <a class="link-all" href="services">Все услуги</a>
         </div>
 
-        <div class="grid grid--4">
+        <div class="objects-scroll">
           <article class="card reveal">
             <div class="card__media" role="img" aria-label="Генеральный подряд" style="background-image:url('img_uslugi/GP.jpg')"></div>
             <div class="card__body">
@@ -216,16 +223,18 @@
     </section>
 
     <!-- ===================== OBJECTS ===================== -->
-    <section class="section" id="objects">
+    <div class="marquee" data-marquee aria-hidden="true">
+      <div class="marquee__track">
+        <span>Объекты</span><span>Объекты</span><span>Объекты</span><span>Объекты</span><span>Объекты</span><span>Объекты</span><span>Объекты</span><span>Объекты</span>
+      </div>
+    </div>
+    <section class="section" id="objects" style="margin-top: 0; padding-top: 0;">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <h2>Наши объекты</h2>
-          </div>
           <a class="link-all" href="objects">Все объекты</a>
         </div>
 
-        <div class="grid grid--3">
+        <div class="objects-scroll">
           <article class="card reveal">
             <div class="card__media" role="img" aria-label="Бизнес-центры" style="background-image:url('img_objects/BC.webp')"></div>
             <div class="card__body">
@@ -279,30 +288,32 @@
     </section>
 
     <!-- ===================== NEWS ===================== -->
-    <section class="section section--blue" id="news">
+    <div class="marquee" data-marquee aria-hidden="true">
+      <div class="marquee__track">
+        <span>Новости</span><span>Новости</span><span>Новости</span><span>Новости</span><span>Новости</span><span>Новости</span><span>Новости</span><span>Новости</span>
+      </div>
+    </div>
+    <section class="section section--blue" id="news" style="margin-top: 0; padding-top: 0;">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <span class="eyebrow">Новости</span>
-            <h2>Что нового</h2>
-          </div>
           <a class="link-all" href="news">Все новости</a>
         </div>
 
-        <div class="grid grid--2" data-home-news>
+        <div class="objects-scroll" data-home-news>
           <p class="news-empty">Загрузка новостей…</p>
         </div>
       </div>
     </section>
 
     <!-- ===================== CLIENTS CAROUSEL ===================== -->
-    <section class="section" id="clients">
+    <div class="marquee" data-marquee aria-hidden="true">
+      <div class="marquee__track">
+        <span>Клиенты</span><span>Клиенты</span><span>Клиенты</span><span>Клиенты</span><span>Клиенты</span><span>Клиенты</span><span>Клиенты</span><span>Клиенты</span>
+      </div>
+    </div>
+    <section class="section" id="clients" style="margin-top: 0; padding-top: 0;">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <span class="eyebrow">Нам доверяют</span>
-            <h2>Клиенты и партнёры</h2>
-          </div>
           <a class="link-all" href="clients">Все клиенты</a>
         </div>
 
@@ -507,7 +518,7 @@
               <label for="f-privacy" style="font-weight:400;">Я соглашаюсь на обработку персональных данных в соответствии с <a href="privacy">политикой конфиденциальности</a>.</label>
             </div>
 
-            <button class="btn btn--block" type="submit">Отправить заявку<span class="btn__loading" hidden>Отправляем…</span></button>
+            <button class="btn btn--blue btn--block" type="submit">Отправить заявку<span class="btn__loading" hidden>Отправляем…</span></button>
           </form>
         </div>
       </div>
@@ -569,6 +580,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20260827a" defer></script>
+  <script src="assets/js/main.js?v=20260914a" defer></script>
 </body>
 </html>

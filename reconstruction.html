@@ -7,12 +7,13 @@
   <meta name="description" content="Реконструкция зданий «СК ПСП»: бизнес-центр «Сенатор», БЦ на Цветочной, Военно-Морской музей, завод «Трубосталь». Монолитные конструкции, монтаж металлоконструкций и генеральный подряд под ключ." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260827a" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260917f" />
+  <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
   <link rel="canonical" href="https://sk-psp.ru/reconstruction" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="СК ПСП — строительная компания" />
@@ -65,19 +66,24 @@
         <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
       </a>
 
-      <nav class="nav" id="main-nav" aria-label="Основное меню">
-        <a href="index">Главная</a>
+              <a href="index">Главная</a>
         <a href="news">Новости</a>
         <a href="about">О компании</a>
         <a href="services">Услуги</a>
-        <a class="active" href="objects">Объекты</a>
+        <a class="has-sub" href="objects" aria-haspopup="true">
+          Объекты
+          <span class="nav-caret" aria-hidden="true"></span>
+          <div class="nav-dropdown">
+            <a href="business-centers">Бизнес-центры</a>
+            <a href="public-buildings">Общественные здания</a>
+            <a href="shopping-malls">Торговые комплексы</a>
+            <a href="residential">Жилые дома</a>
+            <a href="industrial">Промышленные</a>
+            <a href="reconstruction">Реконструкция</a>
+          </div>
+        </a>
         <a href="clients">Клиенты</a>
         <a href="vacancies">Вакансии</a>
-      </nav>
-
-      <div class="header-cta">
-        <a class="header-phone" href="tel:+78123886371">+7 (812) 388-63-71<small>Пн–Пт 9:00–18:00</small></a>
-      </div>
 
       <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
     </div>
