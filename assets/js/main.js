@@ -19,7 +19,7 @@
     });
     // Close menu when a link is chosen (but NOT on dropdown parent toggle)
     nav.addEventListener('click', function (e) {
-      // If clicking the "Объекты" parent link (has-sub), toggle dropdown instead
+      // If clicking the parent link (has-sub), toggle dropdown instead
       var hasSub = e.target.closest('a.has-sub');
       if (hasSub && !hasSub.closest('.nav-dropdown')) {
         var wasExpanded = hasSub.getAttribute('aria-expanded') === 'true';
@@ -28,9 +28,10 @@
         nav.querySelectorAll('a.has-sub[aria-expanded="true"]').forEach(function (a) {
           if (a !== hasSub) a.setAttribute('aria-expanded', 'false');
         });
+        e.preventDefault();
         return; // don't close the main menu
       }
-      if (e.target.closest('a')) {
+      if (e.target.closest('a') && !e.target.closest('.nav-dropdown')) {
         nav.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
         // Reset all dropdowns
@@ -39,7 +40,12 @@
     });
   }
 
-  /* ---------- Hero slider ---------- */
+  /* ---------- Hero slider (общий для index + news: бесшовый переход) ----------
+     Состояние слайдера (индекс, время до автоперелиста, скролл) живёт в
+     sessionStorage под ключом 'skpsp_hero'. При уходе на другую страницу
+     состояние фиксируется, при возврате — восстанавливается: слайдер
+     продолжает тикать с того же слайда, контент под слайдами меняется. */
+  var HERO_STATE_KEY = 'skpsp_hero';
   var hero = document.querySelector('[data-hero]');
   if (hero) {
     var slides = Array.prototype.slice.call(hero.querySelectorAll('.hero__slide'));
@@ -48,7 +54,17 @@
     var nextBtn = hero.querySelector('[data-hero-next]');
     var idx = 0;
     var timer = null;
+  var timerNextAt = null;
     var DELAY = 6000;
+    // restore: { idx, remain, y }
+    var restore = null;
+    try {
+      var raw = sessionStorage.getItem(HERO_STATE_KEY);
+      if (raw) {
+        restore = JSON.parse(raw);
+        if (typeof restore.idx !== 'number') restore = null;
+      }
+    } catch (e) { restore = null; }
 
     function show(i) {
       idx = (i + slides.length) % slides.length;
@@ -58,11 +74,13 @@
       var caps = hero.querySelectorAll('.hero__caption');
       caps.forEach(function (c, n) { c.classList.toggle('is-active', n === idx); });
     }
-    function restart() {
+    function restart(remainMs) {
       if (timer) { clearInterval(timer); timer = null; }
-      if (!prefersReducedMotion) {
-        timer = setInterval(function () { show(idx + 1); }, DELAY);
-      }
+      if (prefersReducedMotion) return;
+      var wait = (typeof remainMs === 'number' && remainMs > 100) ? remainMs : DELAY;
+      var t = setInterval(function () { show(idx + 1); restart(); }, wait);
+      timerNextAt = Date.now() + wait;
+      timer = t;
     }
 
     dots.forEach(function (d, n) {
@@ -71,9 +89,19 @@
     if (prevBtn) prevBtn.addEventListener('click', function () { show(idx - 1); restart(); });
     if (nextBtn) nextBtn.addEventListener('click', function () { show(idx + 1); restart(); });
 
-    // Pause on hover
-    hero.addEventListener('mouseenter', function () { if (timer) clearInterval(timer); });
-    hero.addEventListener('mouseleave', restart);
+    // Pause on hover (пауза: фиксировать остаток времени для восстановления)
+    var pauseLeft = null;
+    hero.addEventListener('mouseenter', function () {
+      if (timer) {
+        pauseLeft = timerNextAt - Date.now();
+        clearInterval(timer);
+        timer = null;
+      }
+    });
+    hero.addEventListener('mouseleave', function () {
+      if (pauseLeft) { restart(pauseLeft); pauseLeft = null; }
+      else restart();
+    });
 
     // Basic keyboard support when hero is focused
     hero.setAttribute('tabindex', '0');
@@ -82,8 +110,33 @@
       if (e.key === 'ArrowRight') { show(idx + 1); restart(); }
     });
 
-    show(0);
-    restart();
+    // Бесшовный переход Главная ↔ Новости: состояние (слайд, таймер, скролл)
+    // сохраняется при уходе (pagehide), восстанавливается при возврате (load).
+    function saveHeroState() {
+      try {
+        var remain = null;
+        if (timer) remain = Math.max(50, timerNextAt - Date.now());
+        else if (pauseLeft) remain = Math.max(50, pauseLeft);
+        sessionStorage.setItem(HERO_STATE_KEY, JSON.stringify({
+          idx: idx,
+          remain: remain,
+          y: window.scrollY
+        }));
+      } catch (e) {}
+    }
+    window.addEventListener('pagehide', saveHeroState);
+    if (typeof beforeunload !== 'undefined') window.addEventListener('beforeunload', saveHeroState);
+
+    var startIdx = restore ? (restore.idx % slides.length) : 0;
+    show(startIdx);
+    if (restore && !prefersReducedMotion) {
+      restart(restore.remain);
+      if (typeof restore.y === 'number' && restore.y > 0) {
+        window.scrollTo(0, restore.y);
+      }
+    } else {
+      restart();
+    }
   }
 
   /* ---------- Clients carousel ---------- */
@@ -499,6 +552,11 @@
     }
     var main = document.querySelector('main');
     if (!main) return false;
+
+    // Полная новость вместо списка: убираем hero-разметку (иначе слайдер
+    // сломается) — на странице остаётся page-hero + статья + CTA.
+    var heroEl = main.querySelector('[data-hero]');
+    if (heroEl) heroEl.remove();
 
     if (!n) {
       main.innerHTML =
