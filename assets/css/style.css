@@ -998,18 +998,28 @@ button.card__media:hover::after { background: rgba(15, 23, 42, .35); }
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-lg);
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
     padding: 8px 16px 16px;
     transform: translateY(-120%);
     transition: transform .3s var(--ease);
     z-index: 49;
   }
   .nav.is-open { transform: translateY(0); }
-  .nav a { padding: 14px 12px; border-radius: 8px; }
+  .nav a { 
+    padding: 14px 12px; 
+    border-radius: 8px; 
+    color: var(--ink); 
+    text-shadow: none; 
+  }
   .nav a.active::after { display: none; }
-  .nav a.active { background: none; color: #fff; font-weight: 800; }
+  .nav a.active { 
+    background: none; 
+    color: var(--red); 
+    font-weight: 800; 
+  }
+
   /* Mobile: dropdown becomes inline, no absolute positioning */
   .nav a.has-sub { display: flex; align-items: center; justify-content: space-between; }
   .nav-caret { margin-left: auto; }
