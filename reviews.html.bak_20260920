@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Отзывы — СК ПСП | Строительная компания в Санкт-Петербурге</title>
+  <meta name="description" content="Отзывы заказчиков о работе строительной компании «СК ПСП»: генеральный подряд, монолитные конструкции, реконструкция. Реальные объекты и результаты." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260919j" />
+  <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
+  <link rel="canonical" href="https://sk-psp.ru/reviews" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="СК ПСП — строительная компания" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title" content="Отзывы — СК ПСП | Строительная компания в Санкт-Петербурге" />
+  <meta property="og:description" content="Отзывы заказчиков о работе строительной компании «СК ПСП»: генеральный подряд, монолитные конструкции, реконструкция. Реальные объекты и результаты." />
+  <meta property="og:url" content="https://sk-psp.ru/reviews" />
+  <meta property="og:image" content="https://sk-psp.ru/img/slide1.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "GeneralContractor",
+    "name": "СК ПСП",
+    "alternateName": "Строительная компания ПСП",
+    "description": "Строительная компания: генеральный подряд полного цикла, устройство монолитных конструкций, монтаж несущих и ограждающих конструкций, реконструкция зданий. Санкт-Петербург и Ленинградская область.",
+    "url": "https://sk-psp.ru/",
+    "logo": "https://sk-psp.ru/img/logo.png",
+    "image": "https://sk-psp.ru/img/slide1.jpg",
+    "telephone": "+7 (812) 388-63-71",
+    "email": "bik-m@mail.ru",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Цветочная, 18, лит. А, Бизнес-парк, 4 этаж, офис 421",
+      "postalCode": "196006",
+      "addressLocality": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 59.883525,
+      "longitude": 30.33025
+    },
+    "areaServed": ["Санкт-Петербург", "Ленинградская область"],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index" aria-label="СК ПСП — на главную">
+        <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
+        <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+      </a>
+
+              <a href="index">Главная</a>
+        <a href="news">Новости</a>
+        <a href="about">О компании</a>
+        <a href="services">Услуги</a>
+        <a class="has-sub" href="objects" aria-haspopup="true">
+          Объекты
+          <span class="nav-caret" aria-hidden="true"></span>
+          <div class="nav-dropdown">
+            <a href="business-centers">Бизнес-центры</a>
+            <a href="public-buildings">Общественные здания</a>
+            <a href="shopping-malls">Торговые комплексы</a>
+            <a href="residential">Жилые дома</a>
+            <a href="industrial">Промышленные</a>
+            <a href="reconstruction">Реконструкция</a>
+          </div>
+        </a>
+        <a href="clients">Клиенты</a>
+        <a href="vacancies">Вакансии</a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-hero">
+      <div class="container">
+        <h1>Отзывы</h1>
+        <p>Что говорят о нас заказчики и партнёры после сдачи объектов.</p>
+      </div>
+    </div>
+
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
+      <div class="container">
+        <a href="index">Главная</a>
+        <span class="sep">/</span>
+        <a href="about">О компании</a>
+        <span class="sep">/</span>
+        <span class="current">Отзывы</span>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Отзывы заказчиков</h2>
+          <p>Письменные отзывы и благодарности от компаний, с которыми мы вели работы на объектах.</p>
+        </div>
+
+        <div class="grid grid--2" data-lightbox>
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/farmacon.jpg" style="background-image:url('img_reviews/farmacon.jpg')" aria-label="Отзыв ООО «Фармакон Инвест»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «Фармакон Инвест»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/step-1.jpg" style="background-image:url('img_reviews/step-1.jpg')" aria-label="Отзыв ООО «Генподрядная компания СТЭП»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «Генподрядная компания СТЭП»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/psb-zhilstroy.jpg" style="background-image:url('img_reviews/psb-zhilstroy.jpg')" aria-label="Отзыв ООО «ПСБ ЖилСтрой»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «ПСБ „ЖилСтрой”»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/tsentr-invest-stroy.jpg" style="background-image:url('img_reviews/tsentr-invest-stroy.jpg')" aria-label="Отзыв ООО «Центр-Инвест-Строй»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «Центр-Инвест-Строй»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/step-2.jpg" style="background-image:url('img_reviews/step-2.jpg')" aria-label="Отзыв ООО «Генподрядная Компания СТЭП»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «Генподрядная Компания СТЭП»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/selins.jpg" style="background-image:url('img_reviews/selins.jpg')" aria-label="Отзыв ООО «СЭЛИНС»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «СЭЛИНС»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/klass.jpg" style="background-image:url('img_reviews/klass.jpg')" aria-label="Отзыв ООО «КЛАСС»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «КЛАСС»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/meridian.jpg" style="background-image:url('img_reviews/meridian.jpg')" aria-label="Отзыв ООО «МЕРИДИАН»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «МЕРИДИАН»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/union.jpg" style="background-image:url('img_reviews/union.jpg')" aria-label="Отзыв ООО «ЮНИОН»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ООО «ЮНИОН»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <button type="button" class="card__media" data-full="img_reviews/bic.jpg" style="background-image:url('img_reviews/bic.jpg')" aria-label="Отзыв ЗАО «Балтийская Инжиниринговая Компания»"></button>
+            <div class="card__body">
+              <h3 class="card__title">ЗАО «Балтийская Инжиниринговая Компания»</h3>
+              <p class="card__text">Письменный отзыв заказчика</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="prose reveal" style="margin-top:28px;">
+          <h2>Наши заказчики</h2>
+          <p>Помимо компаний, представленных в галерее выше, с нами также сотрудничали:</p>
+          <ul class="list">
+            <li>ООО «Seven Suns Development»</li>
+            <li>Группа компаний «МонАрх»</li>
+            <li>ООО «СК Дальпитерстрой»</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="index">
+            <img class="brand__logo" src="img/logo_white.png" width="61" height="80" alt="СК ПСП" />
+            <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+          </a>
+          <p>Строительство и реконструкция объектов различного назначения. Генеральный подряд полного цикла.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Компания</h4>
+          <a href="about">О компании</a>
+          <a href="certificates">Сертификаты</a>
+          <a href="reviews">Отзывы</a>
+          <a href="contacts">Контакты</a>
+          <a href="vacancies">Вакансии</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Услуги</h4>
+          <a href="service-general-contracting">Генеральный подряд</a>
+          <a href="service-monolith">Монолитные конструкции</a>
+          <a href="service-erection">Монтаж конструкций</a>
+          <a href="service-reconstruction">Реконструкция</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Объекты</h4>
+          <a href="business-centers">Бизнес-центры</a>
+          <a href="public-buildings">Общественные здания</a>
+          <a href="shopping-malls">Торговые комплексы</a>
+          <a href="residential">Жилые дома</a>
+          <a href="industrial">Промышленные объекты</a>
+          <a href="reconstruction">Реконструкция</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <a href="tel:+78123886371">+7 (812) 388-63-71</a>
+          <a href="mailto:bik-m@mail.ru">bik-m@mail.ru</a>
+          <a href="contacts#map">г. Санкт-Петербург, ул. Цветочная, 18, лит. А</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> «СК ПСП» — строительная компания</span>
+        <a href="privacy">Политика конфиденциальности</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js?v=20260919b" defer></script>
+</body>
+</html>

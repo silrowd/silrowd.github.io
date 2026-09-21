@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260917f" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260919j" />
   <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
   <link rel="canonical" href="https://sk-psp.ru/news-romantyk-2015" />
   <meta property="og:type" content="article" />
@@ -70,11 +70,24 @@
               <a href="index">Главная</a>
         <a class="active" href="news">Новости</a>
         <a href="about">О компании</a>
-        <a href="services">Услуги</a>
-        <a class="has-sub" href="objects" aria-haspopup="true">
+        <div class="nav-item">
+            <a href="services" class="has-sub" aria-haspopup="true">
+              Услуги
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="service-general-contracting">Генеральный подряд</a>
+                <a href="service-monolith">Монолитные конструкции</a>
+                <a href="service-erection">Монтаж конструкций</a>
+                <a href="service-reconstruction">Реконструкция</a>
+              </div>
+          </div>
+        <div class="nav-item">
+            <a class="has-sub" href="objects" aria-haspopup="true">
           Объекты
           <span class="nav-caret" aria-hidden="true"></span>
-          <div class="nav-dropdown">
+          </a>
+            <div class="nav-dropdown">
             <a href="business-centers">Бизнес-центры</a>
             <a href="public-buildings">Общественные здания</a>
             <a href="shopping-malls">Торговые комплексы</a>
@@ -82,7 +95,7 @@
             <a href="industrial">Промышленные</a>
             <a href="reconstruction">Реконструкция</a>
           </div>
-        </a>
+          </div>
         <a href="clients">Клиенты</a>
         <a href="vacancies">Вакансии</a>
 
@@ -191,6 +204,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20260827a" defer></script>
+  <script src="assets/js/main.js?v=20260919b" defer></script>
 </body>
 </html>

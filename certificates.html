@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Сертификаты и допуски — СК ПСП | Строительная компания в Санкт-Петербурге</title>
-  <meta name="description" content="Сертификаты, допуски СРО и удостоверения строительной компании «СК ПСП»: членство в СРО, допуски к работам, влияющим на безопасность." />
+  <title>Сертификаты — СК ПСП | Строительная компания в Санкт-Петербурге</title>
+  <meta name="description" content="Сертификаты и допуски строительной компании «СК ПСП»: свидетельства о членстве в СРО, допуски к работам, влияющим на безопасность. Документы доступны для просмотра." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -12,14 +12,14 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260917f" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260919j" />
   <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
   <link rel="canonical" href="https://sk-psp.ru/certificates" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="СК ПСП — строительная компания" />
   <meta property="og:locale" content="ru_RU" />
-  <meta property="og:title" content="Сертификаты и допуски — СК ПСП | Строительная компания в Санкт-Петербурге" />
-  <meta property="og:description" content="Сертификаты, допуски СРО и удостоверения строительной компании «СК ПСП»: членство в СРО, допуски к работам, влияющим на безопасность." />
+  <meta property="og:title" content="Сертификаты — СК ПСП | Строительная компания в Санкт-Петербурге" />
+  <meta property="og:description" content="Сертификаты и допуски строительной компании «СК ПСП»: свидетельства о членстве в СРО, допуски к работам, влияющим на безопасность." />
   <meta property="og:url" content="https://sk-psp.ru/certificates" />
   <meta property="og:image" content="https://sk-psp.ru/img/slide1.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -59,45 +59,116 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index" aria-label="СК ПСП — на главную">
-        <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
-        <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
-      </a>
-
-              <a href="index">Главная</a>
-        <a href="news">Новости</a>
-        <a href="about">О компании</a>
-        <a href="services">Услуги</a>
-        <a class="has-sub" href="objects" aria-haspopup="true">
-          Объекты
-          <span class="nav-caret" aria-hidden="true"></span>
-          <div class="nav-dropdown">
-            <a href="business-centers">Бизнес-центры</a>
-            <a href="public-buildings">Общественные здания</a>
-            <a href="shopping-malls">Торговые комплексы</a>
-            <a href="residential">Жилые дома</a>
-            <a href="industrial">Промышленные</a>
-            <a href="reconstruction">Реконструкция</a>
-          </div>
-        </a>
-        <a href="clients">Клиенты</a>
-        <a href="vacancies">Вакансии</a>
-
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
-    </div>
-  </header>
-
   <main>
 
-    <div class="page-hero">
-      <div class="container">
-        <h1>Сертификаты и допуски</h1>
-        <p>Компания «СК ПСП» обладает всеми необходимыми допусками для выполнения строительно-монтажных работ полного цикла.</p>
-      </div>
-    </div>
+    <!-- ===================== HERO SLIDER (как на главной, о компании, новостях) ===================== -->
+    <section class="hero" data-hero aria-label="Слайд-шоу">
 
+      <!-- HEADER (на фоне слайдов) -->
+      <header class="site-header site-header--hero">
+        <div class="container header-inner">
+          <a class="brand" href="index" aria-label="СК ПСП — на главную">
+            <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
+            <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+          </a>
+
+          <nav class="nav" id="main-nav" aria-label="Основное меню">
+            <a href="index">Главная</a>
+            <a href="news">Новости</a>
+            <a href="about">О компании</a>
+            <div class="nav-item">
+            <a href="services" class="has-sub" aria-haspopup="true">
+              Услуги
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="service-general-contracting">Генеральный подряд</a>
+                <a href="service-monolith">Монолитные конструкции</a>
+                <a href="service-erection">Монтаж конструкций</a>
+                <a href="service-reconstruction">Реконструкция</a>
+              </div>
+          </div>
+            <div class="nav-item">
+            <a href="objects" class="has-sub" aria-haspopup="true">
+              Объекты
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="business-centers">Бизнес-центры</a>
+                <a href="public-buildings">Общественные здания</a>
+                <a href="shopping-malls">Торговые комплексы</a>
+                <a href="residential">Жилые дома</a>
+                <a href="industrial">Промышленные</a>
+                <a href="reconstruction">Реконструкция</a>
+              </div>
+          </div>
+            <a href="clients">Клиенты</a>
+            <a href="vacancies">Вакансии</a>
+          </nav>
+
+          <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
+        </div>
+      </header>
+
+      <div class="hero__slides" aria-hidden="true">
+        <div class="hero__slide is-active"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+      </div>
+
+      <div class="container hero__content">
+        <div class="hero__captions">
+          <div class="hero__caption is-active">
+            <span class="eyebrow">Допуски</span>
+            <h2 class="hero__title">СРО и допуски</h2>
+            <p class="hero__sub">«СК ПСП» — член саморегулируемых организаций в области строительства. Допуски на работы любой степени ответственности, включая объекты с повышенными требованиями к безопасности.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="#sro">Свидетельства СРО</a>
+            </div>
+          </div>
+          <div class="hero__caption">
+            <span class="eyebrow">Персонал</span>
+            <h2 class="hero__title">Квалификация персонала</h2>
+            <p class="hero__sub">Инженеры, мастера и специалисты с профильными удостоверениями. Регулярное обучение и аттестация по строительным специальностям и охране труда.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="#sro">Подробнее</a>
+            </div>
+          </div>
+          <div class="hero__caption">
+            <span class="eyebrow">Документы</span>
+            <h2 class="hero__title">Свидетельства СРО</h2>
+            <p class="hero__sub">Сканы свидетельств о членстве в саморегулируемых организациях ООО «СК ПСП» и ООО «БИК-Монолит». Нажмите на изображение, чтобы открыть в полном размере.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="#sro">Смотреть</a>
+            </div>
+          </div>
+          <div class="hero__caption">
+            <span class="eyebrow">Связаться</span>
+            <h2 class="hero__title">Нужны копии документов?</h2>
+            <p class="hero__sub">Пришлём пакет сертификатов и допусков для вашей тендерной или отчётной документации.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="contacts">Запросить документы</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__pager">
+        <div class="container">
+          <button class="hero__dot is-active" aria-label="Слайд 1"></button>
+          <button class="hero__dot" aria-label="Слайд 2"></button>
+          <button class="hero__dot" aria-label="Слайд 3"></button>
+          <button class="hero__dot" aria-label="Слайд 4"></button>
+        </div>
+        <div class="hero__arrows">
+          <button class="hero__arrow" data-hero-prev aria-label="Предыдущий слайд">‹</button>
+          <button class="hero__arrow" data-hero-next aria-label="Следующий слайд">›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BREADCRUMBS ===================== -->
     <nav class="breadcrumbs" aria-label="Хлебные крошки">
       <div class="container">
         <a href="index">Главная</a>
@@ -108,8 +179,9 @@
       </div>
     </nav>
 
-    <section class="section">
-      <div class="container layout">
+    <!-- ===================== CONTENT ===================== -->
+    <section class="section" id="sro">
+      <div class="container">
         <article class="prose reveal">
           <h2>Допуски и членство в СРО</h2>
           <p>«СК ПСП» — член саморегулируемых организаций в области строительства. Мы имеем допуски на выполнение работ, которые могут оказать негативное воздействие на объект капитального строительства, в том числе на объекты с повышенными требованиями к безопасности.</p>
@@ -171,14 +243,6 @@
             </div>
           </div>
         </article>
-
-        <aside class="aside reveal">
-          <div class="aside__box aside__cta">
-            <h3>Нужны копии документов?</h3>
-            <p>Пришлём пакет сертификатов и допусков для вашей тендерной или отчётной документации.</p>
-            <a class="btn btn--block" href="contacts">Запросить документы</a>
-          </div>
-        </aside>
       </div>
     </section>
 
@@ -224,7 +288,7 @@
 
         <div class="footer-col">
           <h4>Контакты</h4>
-          <a href="tel:+78123886371">+7 (812) 388-63-71</a>
+          <a href="tel:+781****6371">+7 (812) 388-63-71</a>
           <a href="mailto:bik-m@mail.ru">bik-m@mail.ru</a>
           <a href="contacts#map">г. Санкт-Петербург, ул. Цветочная, 18, лит. А</a>
         </div>
@@ -237,6 +301,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20260827a" defer></script>
+  <script src="assets/js/main.js?v=20260919b" defer></script>
 </body>
 </html>

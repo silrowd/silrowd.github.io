@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260917f" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260919j" />
   <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
   <link rel="canonical" href="https://sk-psp.ru/news" />
   <meta property="og:type" content="website" />
@@ -59,56 +59,128 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index" aria-label="СК ПСП — на главную">
-        <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
-        <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
-      </a>
-
-              <a href="index">Главная</a>
-        <a class="active" href="news">Новости</a>
-        <a href="about">О компании</a>
-        <a href="services">Услуги</a>
-        <a class="has-sub" href="objects" aria-haspopup="true">
-          Объекты
-          <span class="nav-caret" aria-hidden="true"></span>
-          <div class="nav-dropdown">
-            <a href="business-centers">Бизнес-центры</a>
-            <a href="public-buildings">Общественные здания</a>
-            <a href="shopping-malls">Торговые комплексы</a>
-            <a href="residential">Жилые дома</a>
-            <a href="industrial">Промышленные</a>
-            <a href="reconstruction">Реконструкция</a>
-          </div>
-        </a>
-        <a href="clients">Клиенты</a>
-        <a href="vacancies">Вакансии</a>
-
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
-    </div>
-  </header>
-
   <main>
 
-    <div class="page-hero">
-      <div class="container">
-        <h1>Новости</h1>
-        <p>Следите за событиями компании: сданные объекты, новые проекты, технологии и люди.</p>
-      </div>
-    </div>
+    <h1 class="sr-only">Новости строительной компании «СК ПСП»: события и проекты</h1>
 
-    <nav class="breadcrumbs" aria-label="Хлебные крошки">
-      <div class="container">
-        <a href="index">Главная</a>
-        <span class="sep">/</span>
-        <span class="current">Новости</span>
-      </div>
-    </nav>
+    <!-- ===================== HERO SLIDER (как на главной) ===================== -->
+    <section class="hero" data-hero aria-label="Слайд-шоу">
 
+      <!-- HEADER (на фоне слайдов) -->
+      <header class="site-header site-header--hero">
+        <div class="container header-inner">
+          <a class="brand" href="index" aria-label="СК ПСП — на главную">
+            <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
+            <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+          </a>
+
+          <nav class="nav" id="main-nav" aria-label="Основное меню">
+            <a href="index">Главная</a>
+            <a class="active" href="news">Новости</a>
+            <a href="about">О компании</a>
+            <div class="nav-item">
+            <a href="services" class="has-sub" aria-haspopup="true">
+              Услуги
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="service-general-contracting">Генеральный подряд</a>
+                <a href="service-monolith">Монолитные конструкции</a>
+                <a href="service-erection">Монтаж конструкций</a>
+                <a href="service-reconstruction">Реконструкция</a>
+              </div>
+          </div>
+
+            <div class="nav-item">
+            <a href="objects" class="has-sub" aria-haspopup="true">
+              Объекты
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="business-centers">Бизнес-центры</a>
+                <a href="public-buildings">Общественные здания</a>
+                <a href="shopping-malls">Торговые комплексы</a>
+                <a href="residential">Жилые дома</a>
+                <a href="industrial">Промышленные</a>
+                <a href="reconstruction">Реконструкция</a>
+              </div>
+          </div>
+            <a href="clients">Клиенты</a>
+            <a href="vacancies">Вакансии</a>
+          </nav>
+
+
+          <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
+        </div>
+      </header>
+
+      <div class="hero__slides" aria-hidden="true">
+        <div class="hero__slide is-active"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+      </div>
+
+      <div class="container hero__content">
+        <div class="hero__captions">
+          <div class="hero__caption is-active">
+            <span class="eyebrow">Строительная компания</span>
+            <h2 class="hero__title">Строим объекты любой сложности</h2>
+            <p class="hero__sub">Генеральный подряд полного цикла: от подготовки технических решений до ввода объекта в эксплуатацию. Соблюдение сроков и качества на каждом этапе.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="objects">Смотреть объекты</a>
+            </div>
+          </div>
+          <div class="hero__caption">
+            <span class="eyebrow">Генеральный подряд</span>
+            <h2 class="hero__title">Берём проект под ключ</h2>
+            <p class="hero__sub">Координируем все подрядные работы, контролируем качество и сроки. Один договор — полная ответственность за результат.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="contacts">Рассчитать стоимость</a>
+            </div>
+          </div>
+          <div class="hero__caption">
+            <span class="eyebrow">Монолитные конструкции</span>
+            <h2 class="hero__title">Надёжный фундамент вашего объекта</h2>
+            <p class="hero__sub">Устройство монолитных конструкций по технологии с применением современных материалов и оборудования.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="services">Подробнее об услугах</a>
+            </div>
+          </div>
+          <div class="hero__caption">
+            <span class="eyebrow">Реконструкция</span>
+            <h2 class="hero__title">Возвращаем зданиям вторую жизнь</h2>
+            <p class="hero__sub">Реконструкция и капитальный ремонт зданий. Модернизация инженерных систем и несущих конструкций.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__pager">
+        <div class="container">
+          <button class="hero__dot is-active" aria-label="Слайд 1"></button>
+          <button class="hero__dot" aria-label="Слайд 2"></button>
+          <button class="hero__dot" aria-label="Слайд 3"></button>
+          <button class="hero__dot" aria-label="Слайд 4"></button>
+        </div>
+        <div class="hero__arrows">
+          <button class="hero__arrow" data-hero-prev aria-label="Предыдущий слайд">‹</button>
+          <button class="hero__arrow" data-hero-next aria-label="Следующий слайд">›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEWS GRID ===================== -->
     <section class="section">
-      <div class="container" style="display:grid;gap:22px;">
-        <div data-news-grid>
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Новости</span>
+            <h2>Следите за событиями компании</h2>
+          </div>
+          <a class="link-all" href="news">Сданные объекты, новые проекты, технологии и люди</a>
+        </div>
+
+        <div class="news-grid" data-news-grid>
           <p class="news-empty">Загрузка новостей…</p>
         </div>
       </div>
@@ -181,6 +253,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20260827a" defer></script>
+  <script src="assets/js/main.js?v=20260919b" defer></script>
 </body>
 </html>

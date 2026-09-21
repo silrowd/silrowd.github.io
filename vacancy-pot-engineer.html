@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260917f" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260919j" />
   <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
   <link rel="canonical" href="https://sk-psp.ru/vacancy-pot-engineer" />
   <meta property="og:type" content="website" />
@@ -59,43 +59,80 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index" aria-label="СК ПСП — на главную">
-        <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
-        <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
-      </a>
+  
+    <!-- HERO SLIDER (без текста) -->
+    <section class="hero" data-hero aria-label="Слайд-шоу">
 
-              <a href="index">Главная</a>
-        <a href="news">Новости</a>
-        <a href="about">О компании</a>
-        <a href="services">Услуги</a>
-        <a class="has-sub" href="objects" aria-haspopup="true">
-          Объекты
-          <span class="nav-caret" aria-hidden="true"></span>
-          <div class="nav-dropdown">
-            <a href="business-centers">Бизнес-центры</a>
-            <a href="public-buildings">Общественные здания</a>
-            <a href="shopping-malls">Торговые комплексы</a>
-            <a href="residential">Жилые дома</a>
-            <a href="industrial">Промышленные</a>
-            <a href="reconstruction">Реконструкция</a>
+      <header class="site-header site-header--hero">
+        <div class="container header-inner">
+          <a class="brand" href="index" aria-label="СК ПСП — на главную">
+            <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
+            <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+          </a>
+
+          <nav class="nav" id="main-nav" aria-label="Основное меню">
+            <a href="index">Главная</a>
+            <a href="news">Новости</a>
+            <a href="about">О компании</a>
+            <div class="nav-item">
+            <a href="services" class="has-sub" aria-haspopup="true">
+              Услуги
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="service-general-contracting">Генеральный подряд</a>
+                <a href="service-monolith">Монолитные конструкции</a>
+                <a href="service-erection">Монтаж конструкций</a>
+                <a href="service-reconstruction">Реконструкция</a>
+              </div>
           </div>
-        </a>
-        <a href="clients">Клиенты</a>
-        <a class="active" href="vacancies">Вакансии</a>
+            <div class="nav-item">
+            <a href="objects" class="has-sub" aria-haspopup="true">
+              Объекты
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
+            <div class="nav-dropdown">
+                <a href="business-centers">Бизнес-центры</a>
+                <a href="public-buildings">Общественные здания</a>
+                <a href="shopping-malls">Торговые комплексы</a>
+                <a href="residential">Жилые дома</a>
+                <a href="industrial">Промышленные</a>
+                <a href="reconstruction">Реконструкция</a>
+              </div>
+          </div>
+            <a href="clients">Клиенты</a>
+            <a class="active" href="vacancies">Вакансии</a>
+          </nav>
 
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
-    </div>
-  </header>
+          <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
+        </div>
+      </header>
+
+      <div class="hero__slides" aria-hidden="true">
+        <div class="hero__slide is-active"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+      </div>
+
+      <div class="hero__pager">
+        <div class="container">
+          <button class="hero__dot is-active" aria-label="Слайд 1"></button>
+          <button class="hero__dot" aria-label="Слайд 2"></button>
+          <button class="hero__dot" aria-label="Слайд 3"></button>
+          <button class="hero__dot" aria-label="Слайд 4"></button>
+        </div>
+        <div class="hero__arrows">
+          <button class="hero__arrow" data-hero-prev aria-label="Предыдущий слайд">‹</button>
+          <button class="hero__arrow" data-hero-next aria-label="Следующий слайд">›</button>
+        </div>
+      </div>
+    </section>
+
 
   <main>
 
-    <div class="page-hero">
-      <div class="container">
-        <h1>Инженер ПТО</h1>
-        <p>Вакансия в строительной компании «СК ПСП».</p>
-      </div>
+    
     </div>
 
     <nav class="breadcrumbs" aria-label="Хлебные крошки">
@@ -229,6 +266,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20260827a" defer></script>
+  <script src="assets/js/main.js?v=20260919b" defer></script>
 </body>
 </html>
