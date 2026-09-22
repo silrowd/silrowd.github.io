@@ -12,6 +12,7 @@
   /* ---------- Mobile navigation ---------- */
   var navToggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.nav');
+  function isTouch() { return (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || 'ontouchstart' in window; }
   if (navToggle && nav) {
     navToggle.addEventListener('click', function () {
       var open = nav.classList.toggle('is-open');
@@ -19,9 +20,9 @@
     });
     // Close menu when a link is chosen (but NOT on dropdown parent toggle)
     nav.addEventListener('click', function (e) {
-      // If clicking the parent link (has-sub), toggle dropdown instead
+      // Touch: tapping the parent link toggles its dropdown inline instead of navigating
       var hasSub = e.target.closest('a.has-sub');
-      if (hasSub && !hasSub.closest('.nav-dropdown')) {
+      if (hasSub && !hasSub.closest('.nav-dropdown') && isTouch()) {
         var wasExpanded = hasSub.getAttribute('aria-expanded') === 'true';
         hasSub.setAttribute('aria-expanded', wasExpanded ? 'false' : 'true');
         // Close other expanded sub-menus
@@ -31,20 +32,17 @@
         e.preventDefault();
         return; // don't close the main menu
       }
+      // Mouse: clicking the parent navigates to its landing page (dropdown opens on hover) —
+      // just close the mobile panel state if open.
       if (e.target.closest('a') && !e.target.closest('.nav-dropdown')) {
         nav.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
-        // Reset all dropdowns
         nav.querySelectorAll('a.has-sub').forEach(function (a) { a.setAttribute('aria-expanded', 'false'); });
       }
     });
   }
 
-  /* ---------- Hero slider (общий для index + news: бесшовый переход) ----------
-     Состояние слайдера (индекс, время до автоперелиста, скролл) живёт в
-     sessionStorage под ключом 'skpsp_hero'. При уходе на другую страницу
-     состояние фиксируется, при возврате — восстанавливается: слайдер
-     продолжает тикать с того же слайда, контент под слайдами меняется. */
+  /* ---------- Hero slider (общий для index + news: бесшовный переход) ---------- */
   var HERO_STATE_KEY = 'skpsp_hero';
   var hero = document.querySelector('[data-hero]');
   if (hero) {
@@ -54,7 +52,7 @@
     var nextBtn = hero.querySelector('[data-hero-next]');
     var idx = 0;
     var timer = null;
-  var timerNextAt = null;
+    var timerNextAt = null;
     var DELAY = 6000;
     // restore: { idx, remain, y }
     var restore = null;
@@ -254,16 +252,11 @@
   }
   initHeaderScroll();
 
-  /* ---------- Scrollspy: подсветка пункта меню по секции (главная) ----------
-     Ссылки меню ведут на страницы (about, services…), но на главной те же
-     id существуют как секции — подсвечиваем пункт, чья секция в вьюпорте. */
+  /* ---------- Scrollspy: подсветка пункта меню по секции (главная) ---------- */
   function initScrollSpy() {
     var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
     if (!links.length) return;
-    /* --- прогон 1: реально существующие секции (по id) ---
-       Спам-фильтр spy: на подстраницах (services, contacts…) секций with id
-       нет, и не должно быть никакой подсветки — её держит статический active
-       в HTML. Только на главной (все секции есть) spy работает. */
+    /* --- прогон 1: реально существующие секции (по id) --- */
     var realSections = [];
     var homeLink = null;
     links.forEach(function (a) {
@@ -482,7 +475,7 @@
       out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
       out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
       out = out.replace(/__([^_]+)__/g, '<strong>$1</strong>');
-      out = out.replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
+      out = out.replace(/(^|[^*])\*([^\*\s][^*]*)\*/g, '$1<em>$2</em>');
       return out;
     }
     function flushPara() {
@@ -545,6 +538,7 @@
     }
     return '<div class="news-gallery" data-lightbox="' + esc(title) + '" aria-label="Фотогалерея новости">' + tiles.join('') + '</div>';
   }
+
   function renderArticle(list, id) {
     var n = null;
     for (var i = 0; i < list.length; i++) {
@@ -934,22 +928,47 @@
     label: 'Сертификат',
   });
 
-  /* ---------- Marquee: scroll-linked text ticker ---------- */
+  /* ---------- Marquee: single word, scrolls across container on page scroll ---------- */
   (function () {
     var marquees = document.querySelectorAll('[data-marquee]');
     if (!marquees.length) return;
 
-    var tracks = Array.prototype.map.call(marquees, function (m) {
+    var tracks = [];
+    Array.prototype.forEach.call(marquees, function (m) {
       var track = m.querySelector('.marquee__track');
-      if (!track) return null;
+      if (!track) return;
       var word = track.querySelector('span');
-      if (!word) return null;
-      var wordW = word.offsetWidth;
-      var unit = wordW + 48;
-      return { track: track, unit: unit, lastY: 0, offset: 0 };
-    }).filter(Boolean);
+      if (!word) return;
+      tracks.push({ el: m, track: track, word: word });
+    });
 
-    if (!tracks.length) return;
+    function update() {
+      Array.prototype.forEach.call(tracks, function (t) {
+        var cw = t.el.clientWidth;
+        var ww = t.word.offsetWidth;
+        // Word starts fully off-screen left, ends fully off-screen right.
+        var travel = cw + ww;
+        // Map page scroll to word position within this marquee's section range.
+        var rect = t.el.getBoundingClientRect();
+        var top = window.scrollY + rect.top;
+        var h = rect.height || 120;
+        // Progress: 0 when section is at viewport bottom, 1 when past it.
+        var p = (window.innerHeight - rect.bottom) / (window.innerHeight + h);
+        if (p < 0) p = 0;
+        if (p > 1) p = 1;
+        var x = -ww + p * travel;
+        t.word.style.transform = 'translateX(' + x + 'px)';
+        // Fade in/out near edges.
+        var fadeZone = 0.12;
+        var op = 1;
+        if (p < fadeZone) {
+          op = p / fadeZone;
+        } else if (p > 1 - fadeZone) {
+          op = (1 - p) / fadeZone;
+        }
+        t.word.style.opacity = Math.max(0, Math.min(1, op));
+      });
+    }
 
     var ticking = false;
     function onScroll() {
@@ -957,21 +976,13 @@
       ticking = true;
       requestAnimationFrame(function () {
         ticking = false;
-        var y = window.scrollY;
-        tracks.forEach(function (t) {
-          var delta = y - t.lastY;
-          t.lastY = y;
-          t.offset -= delta * 1.2;
-          if (t.unit > 0) {
-            t.offset = ((t.offset % t.unit) + t.unit) % t.unit;
-          }
-          t.track.style.transform = 'translateX(-' + t.offset + 'px)';
-        });
+        update();
       });
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('resize', onScroll);
+    update();
   })();
 
   /* ---------- Footer year ---------- */

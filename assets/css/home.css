@@ -17,6 +17,7 @@ body {
   line-height: 1.12;
   letter-spacing: -.01em;
 }
+.hero__title--accent { color: var(--orange-accent, #ff9f43); }
 .lead__text h2,
 .section-head h2,
 .cta-band h2 {
@@ -40,8 +41,31 @@ body {
   border-radius: 100px;
   background: rgba(215, 80, 103, .08);
 }
+.eyebrow--orange {
+  color: #ff9f43;
+  border-color: rgba(255, 159, 67, .4);
+  background: #fff;
+}
 .section-head { margin-bottom: 40px; }
 .link-all { font-family: "Manrope", sans-serif; font-weight: 600; }
+/* Featured Projects style — big section heading */
+.link-all--big {
+  display: inline-block;
+  font-family: "Unbounded", "Manrope", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+  line-height: 1.1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 159, 67, .45);
+  paint-order: stroke fill;
+  text-decoration: none;
+  transition: -webkit-text-stroke-color .3s var(--ease), color .3s var(--ease);
+}
+.link-all--big:hover {
+  -webkit-text-stroke-color: rgba(255, 159, 67, .85);
+}
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -65,10 +89,14 @@ body {
 .hero__actions .btn--ghost { border-color: rgba(255,255,255,.55); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
 /* ---------- Hero: cinematic depth ---------- */
 .hero { min-height: clamp(500px, 74vh, 720px); }
-.hero::after {
-  background: linear-gradient(180deg, transparent 50%, #292929 100%);
-}
 .hero__caption { max-width: 680px; }
+/* Карточка слайда — без фона */
+.hero__caption--glass { background: none; border: none; backdrop-filter: none; }
+/* Читаемость белых букв на светлых фото: мягкая тёмная тень + лёгкая обводка */
+.hero__caption .hero__title,
+.hero__caption .hero__sub { text-shadow: 0 2px 18px rgba(0, 0, 0, .65), 0 1px 4px rgba(0, 0, 0, .9); -webkit-text-stroke: .7px rgba(10, 22, 38, .55); paint-order: stroke fill; }
+/* Лёгкий полупрозрачный белый фон у плашек (eyebrow) на всех слайдах */
+.hero__caption .eyebrow { background: rgba(255, 255, 255, .6); backdrop-filter: blur(4px); }
 .hero__caption .hero__sub { font-size: 1.15rem; max-width: 54ch; line-height: 1.7; }
 .hero__actions { margin-top: 36px; gap: 16px; }
 .hero__arrow {
@@ -144,6 +172,22 @@ body {
   transition: transform .25s var(--ease);
 }
 .card:hover .card__more::after { transform: translateX(5px); }
+
+/* ---------- Vacancies: horizontal scroll row (index) ---------- */
+.vac-row {
+  display: flex;
+  gap: 26px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--red) rgba(255, 255, 255, .1);
+}
+.vac-row::-webkit-scrollbar { height: 8px; }
+.vac-row::-webkit-scrollbar-track { background: rgba(255, 255, 255, .07); border-radius: 99px; }
+.vac-row::-webkit-scrollbar-thumb { background: var(--red); border-radius: 99px; }
+.vac-card { flex: 0 0 clamp(300px, 30%, 420px); scroll-snap-align: start; }
 
 /* ---------- News band: premium texture ---------- */
 .section--blue {
@@ -230,6 +274,7 @@ body {
 .cta-band .btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 30px rgba(0, 0, 0, .35); }
 
 /* ---------- Header polish ---------- */
+.btn--blue:hover { color: #ff9f43; }
 .site-header--hero,
 .site-header--hero::before,
 .site-header--hero::after {
@@ -246,8 +291,9 @@ body {
   transition: color .2s var(--ease), background .2s var(--ease);
 }
 .nav a:hover { color: #fff; background: none; }
-.nav a.active { color: #fff; font-weight: 800; }
-.nav a.active::after { background: #ffffff; }
+.nav a.active { color: var(--orange-accent, #ff9f43); font-weight: 800; }
+/* Родительский пункт (Услуги/Объекты) тоже оранжевый */
+.nav a.has-sub.active::after { background: var(--orange-accent, #ff9f43); box-shadow: 0 0 8px rgba(255, 159, 67, .8); }
 .header-phone {
   color: #fff;
   letter-spacing: .01em;
@@ -265,6 +311,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .card, .news-item, .client, .stat, .contact-item, .btn { transition: none; }
   .card:hover, .news-item:hover, .client:hover, .stat:hover { transform: none; }
+  .vac-row { scroll-snap-type: none; }
 }
 
 /* ---------- Small screens ---------- */
