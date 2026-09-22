@@ -12,8 +12,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20260919j" />
-  <link rel="stylesheet" href="assets/css/home.css?v=20260917g" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260921b" />
+  <link rel="stylesheet" href="assets/css/home.css?v=20260921v" />
   <link rel="canonical" href="https://sk-psp.ru/privacy" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="СК ПСП — строительная компания" />
@@ -59,17 +59,25 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index" aria-label="СК ПСП — на главную">
-        <img class="brand__logo" src="img/logo_white.png" width="92" height="120" alt="СК ПСП" />
-        <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
-      </a>
+  <main>
 
-              <a href="index">Главная</a>
-        <a href="news">Новости</a>
-        <a href="about">О компании</a>
-        <div class="nav-item">
+    <h1 class="sr-only">Политика конфиденциальности — СК ПСП</h1>
+
+    <!-- ===================== HERO SLIDER (как на главной, о компании) ===================== -->
+    <section class="hero" data-hero aria-label="Слайд-шоу">
+
+      <!-- HEADER (на фоне слайдов) -->
+      <header class="site-header site-header--hero">
+        <div class="container header-inner">
+          <a class="brand" href="index" aria-label="СК ПСП — на главную">
+            <img class="brand__logo" src="img/logo.png" width="184" height="240" alt="СК ПСП" />
+          </a>
+
+          <nav class="nav" id="main-nav" aria-label="Основное меню">
+            <a href="index">Главная</a>
+            <a href="news">Новости</a>
+            <a href="about">О компании</a>
+            <div class="nav-item">
             <a href="services" class="has-sub" aria-haspopup="true">
               Услуги
               <span class="nav-caret" aria-hidden="true"></span>
@@ -81,36 +89,56 @@
                 <a href="service-reconstruction">Реконструкция</a>
               </div>
           </div>
-        <div class="nav-item">
-            <a class="has-sub" href="objects" aria-haspopup="true">
-          Объекты
-          <span class="nav-caret" aria-hidden="true"></span>
-          </a>
+            <div class="nav-item">
+            <a href="objects" class="has-sub" aria-haspopup="true">
+              Объекты
+              <span class="nav-caret" aria-hidden="true"></span>
+              </a>
             <div class="nav-dropdown">
-            <a href="business-centers">Бизнес-центры</a>
-            <a href="public-buildings">Общественные здания</a>
-            <a href="shopping-malls">Торговые комплексы</a>
-            <a href="residential">Жилые дома</a>
-            <a href="industrial">Промышленные</a>
-            <a href="reconstruction">Реконструкция</a>
+                <a href="business-centers">Бизнес-центры</a>
+                <a href="public-buildings">Общественные здания</a>
+                <a href="shopping-malls">Торговые комплексы</a>
+                <a href="residential">Жилые дома</a>
+                <a href="industrial">Промышленные</a>
+                <a href="reconstruction">Реконструкция</a>
+              </div>
           </div>
-          </div>
-        <a href="clients">Клиенты</a>
-        <a href="vacancies">Вакансии</a>
+            <a href="clients">Клиенты</a>
+            <a href="vacancies">Вакансии</a>
+          </nav>
 
-      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
-    </div>
-  </header>
+          <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню"><span></span></button>
+        </div>
+      </header>
 
-  <main>
-
-    <div class="page-hero">
-      <div class="container">
-        <h1>Политика конфиденциальности</h1>
-        <p>Действует в отношении сайта sk-psp.ru и вступает в силу с момента публикации.</p>
+      <div class="hero__slides" aria-hidden="true">
+        <div class="hero__slide is-active"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
+        <div class="hero__slide"></div>
       </div>
-    </div>
 
+      <div class="container hero__content">
+        <div class="hero__captions">
+          <div class="hero__caption is-active">
+            <span class="eyebrow">Политика</span>
+            <h2 class="hero__title">Конфиденциальность данных</h2>
+            <p class="hero__sub">Обработка персональных данных, cookies и меры защиты информации на сайте sk-psp.ru.</p>
+            <div class="hero__actions">
+              <a class="btn btn--blue" href="#policy">Читать политику</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__pager">
+        <div class="container">
+          <button class="hero__dot is-active" aria-label="Слайд 1"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BREADCRUMBS ===================== -->
     <nav class="breadcrumbs" aria-label="Хлебные крошки">
       <div class="container">
         <a href="index">Главная</a>
@@ -119,8 +147,9 @@
       </div>
     </nav>
 
-    <section class="section">
-      <div class="container">
+    <!-- ===================== POLICY CONTENT ===================== -->
+    <section class="section" id="policy">
+      <div class="container layout">
         <article class="prose reveal">
           <h2>1. Общие положения</h2>
           <p>Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению их безопасности, предпринимаемые ООО «СК ПСП» (ИНН 7810502379, ОГРН 1089847014586, г. Санкт-Петербург, ул. Цветочная, 18, лит. А; далее — Оператор).</p>
@@ -167,6 +196,16 @@
           <a class="doc-link" href="data/pers_bik.pdf" target="_blank" rel="noopener"><span class="ico">PDF</span> Политика общества в отношении обработки персональных данных ООО «БИК-Монолит»</a>
           <a class="doc-link" href="data/pers_psp.pdf" target="_blank" rel="noopener"><span class="ico">PDF</span> Политика общества в отношении обработки персональных данных ООО «СК ПСП»</a>
         </article>
+
+        <aside class="aside reveal">
+          <div class="aside__box">
+            <h3>Полезное</h3>
+            <nav class="aside__menu">
+              <a href="about">О компании</a>
+              <a href="contacts">Контакты</a>
+            </nav>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -177,8 +216,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a class="brand" href="index">
-            <img class="brand__logo" src="img/logo_white.png" width="61" height="80" alt="СК ПСП" />
-            <span class="brand__text"><b>СК ПСП</b><span>Строительная компания</span></span>
+            <img class="brand__logo" src="img/logo.png" width="92" height="120" alt="СК ПСП" />
           </a>
           <p>Строительство и реконструкция объектов различного назначения. Генеральный подряд полного цикла.</p>
         </div>
@@ -225,6 +263,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20260919b" defer></script>
+  <script src="assets/js/main.js?v=20260921g" defer></script>
 </body>
 </html>
